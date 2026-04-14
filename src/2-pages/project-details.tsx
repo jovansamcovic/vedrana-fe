@@ -7,8 +7,6 @@ type Props = {
 };
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
   const project = await getProjectBySlug(slug);
-  console.log("project");
-  console.log(project);
 
   return (
     <main>
