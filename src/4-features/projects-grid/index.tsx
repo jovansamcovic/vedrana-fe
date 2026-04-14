@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-export const ProjectsGrid = async ({ projects }: any) => {
+export const ProjectsGrid = async ({ projects, locale }: any) => {
   return (
     <section className="w-full px-4 md:px-8 py-16 md:py-24">
       <div className="flex items-center gap-6 mb-10 md:mb-14">
@@ -23,10 +23,9 @@ export const ProjectsGrid = async ({ projects }: any) => {
           return (
             <Link
               key={project.slug}
-              href={`/projects/${project.slug}`}
+              href={`/${locale}/projects/${project.slug}`}
               className="group relative flex flex-col no-underline overflow-hidden aspect-[4/5]"
             >
-              {/* Slika */}
               {imageUrl ? (
                 <Image
                   src={imageUrl}
@@ -59,16 +58,6 @@ export const ProjectsGrid = async ({ projects }: any) => {
           );
         })}
       </div>
-
-      {/* <div className="flex justify-center mt-14">
-        <Link
-          href="/projects"
-          className="text-xs tracking-[0.4em] uppercase text-black border-b border-black pb-px hover:opacity-50 transition-opacity no-underline"
-          style={{ fontFamily: "var(--font-cormorant)" }}
-        >
-          Svi projekti
-        </Link>
-      </div> */}
     </section>
   );
 };

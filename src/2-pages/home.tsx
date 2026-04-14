@@ -49,7 +49,7 @@ const HomePage = async ({ params }: Props) => {
         </p>
       </div>
 
-      <ProjectsGrid projects={projects} />
+      <ProjectsGrid projects={projects} locale={locale} />
 
       <div className="flex justify-center mt-14">
         <Link
