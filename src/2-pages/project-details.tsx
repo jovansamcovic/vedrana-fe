@@ -11,8 +11,6 @@ const ProjectDetailsPage = async ({ slug }: Props) => {
   return (
     <main>
       <div className="px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 lg:px-12 lg:py-16">
-        
-        {/* Naslov - responsive */}
         <h3
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl uppercase mb-6 sm:mb-8 md:mb-10 font-light tracking-wider"
           style={{
@@ -21,8 +19,6 @@ const ProjectDetailsPage = async ({ slug }: Props) => {
         >
           {project?.title}
         </h3>
-
-        {/* Opis - ograničena širina na velikim ekranima */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 max-w-2xl lg:max-w-3xl">
           {Array.isArray(project?.description) &&
             project.description.map((block: any, i: number) =>
@@ -36,8 +32,6 @@ const ProjectDetailsPage = async ({ slug }: Props) => {
               )),
             )}
         </div>
-
-        {/* Galerija - responsive grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 max-w-6xl">
           {project?.gallery.map((image) => {
             return (

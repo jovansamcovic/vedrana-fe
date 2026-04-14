@@ -13,6 +13,8 @@ type Props = {
 const HomePage = async ({ params }: Props) => {
   const { locale } = params;
 
+  console.log("locale: "+locale)
+
   const projects = await getAllProjects();
   const featuredProjects = await getFeaturedProjects();
 
@@ -51,7 +53,7 @@ const HomePage = async ({ params }: Props) => {
 
       <ProjectsGrid projects={projects} locale={locale} />
 
-      <div className="flex justify-center mt-14">
+      <div className="flex justify-center my-8">
         <Link
           href={`/${locale}/projects`}
           className="text-xs tracking-[0.4em] uppercase text-black border-b border-black pb-px hover:opacity-50 transition-opacity no-underline"
