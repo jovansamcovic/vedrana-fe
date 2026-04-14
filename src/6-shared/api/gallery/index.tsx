@@ -39,7 +39,7 @@ interface StrapiResponse<T> {
 export async function getFeaturedProjects(): Promise<Project[]> {
   const res = await fetch(
     `${STRAPI_URL}/api/projects?filters[featured][$eq]=true&populate=coverImage&sort=year:desc`,
-    { next: { revalidate: 3600 }, cache: 'no-store' }
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) throw new Error('Failed to fetch featured projects');

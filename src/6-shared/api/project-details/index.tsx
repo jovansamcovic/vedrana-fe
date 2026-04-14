@@ -41,7 +41,7 @@ interface StrapiResponse<T> {
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const res = await fetch(
     `${STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`,
-    { cache: 'no-store' }
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) throw new Error('Failed to fetch project');

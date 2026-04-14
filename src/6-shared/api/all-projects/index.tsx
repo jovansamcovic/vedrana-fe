@@ -50,7 +50,7 @@ export async function getAllProjects(): Promise<Project[]> {
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const res = await fetch(
     `${STRAPI_URL}/api/projects?populate=*&sort=year:desc`,
-    { cache: "no-store" },
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) throw new Error("Failed to fetch project");
