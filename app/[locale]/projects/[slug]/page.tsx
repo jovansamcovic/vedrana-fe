@@ -15,7 +15,7 @@ export async function generateStaticParams() {
     const res = await fetch(
       `${baseUrl}/api/projects?locale=${locale}&fields[0]=slug`,
       {
-        cache: "force-cache",
+        cache: "no-store",
       },
     );
 

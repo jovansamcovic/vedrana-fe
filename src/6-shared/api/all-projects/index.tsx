@@ -36,11 +36,12 @@ interface StrapiResponse<T> {
   };
 }
 
-
 export async function getAllProjects(): Promise<Project[]> {
-  const res = await fetch(`${STRAPI_URL}/api/projects?populate=*&sort=year:desc`);
+  const res = await fetch(
+    `${STRAPI_URL}/api/projects?populate=*&sort=year:desc`,
+  );
 
-  if (!res.ok) throw new Error('Failed to fetch projects');
+  if (!res.ok) throw new Error("Failed to fetch projects");
 
   const data: StrapiResponse<Project[]> = await res.json();
   return data.data;
@@ -48,10 +49,11 @@ export async function getAllProjects(): Promise<Project[]> {
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const res = await fetch(
-    `${STRAPI_URL}/api/projects?filters[slug][$eq]=${slug}&populate=*`
+    `${STRAPI_URL}/api/projects?populate=*&sort=year:desc`,
+    { cache: "no-store" },
   );
 
-  if (!res.ok) throw new Error('Failed to fetch project');
+  if (!res.ok) throw new Error("Failed to fetch project");
 
   const data: StrapiResponse<Project[]> = await res.json();
   return data.data[0] ?? null;

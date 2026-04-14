@@ -13,8 +13,6 @@ type Props = {
 const HomePage = async ({ params }: Props) => {
   const { locale } = params;
 
-  console.log("locale: "+locale)
-
   const projects = await getAllProjects();
   const featuredProjects = await getFeaturedProjects();
 
