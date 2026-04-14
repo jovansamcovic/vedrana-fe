@@ -114,7 +114,7 @@ export const Header = () => {
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       >
         <ul className="flex flex-col items-center gap-10 list-none m-0 p-0">
           {navItems.map((item, i) => (
@@ -130,8 +130,8 @@ export const Header = () => {
               <Link
                 href={`/${item.toLowerCase()}`}
                 onClick={() => setMenuOpen(false)}
-                className="no-underline tracking-[0.4em] text-2xl font-light uppercase hover:opacity-60 transition-opacity"
-                style={{ fontFamily: "var(--font-cormorant)", color: "#C4A053" }}
+                className="no-underline tracking-[0.4em] text-2xl font-light uppercase hover:scale-110 transition-transform"
+                style={{ fontFamily: "var(--font-cormorant)", color: "#fff" }}
               >
                 {item}
               </Link>
