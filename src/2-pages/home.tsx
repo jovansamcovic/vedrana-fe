@@ -59,7 +59,7 @@ const HomePage = async ({ params }: Props) => {
           className="text-xs tracking-[0.4em] uppercase text-black border-b border-black pb-px hover:opacity-50 transition-opacity no-underline"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
-          Svi projekti
+         All Projects
         </Link>
       </div>
     </main>

@@ -20,7 +20,7 @@ export const Header = () => {
     };
   }, [menuOpen]);
 
-  const navItems = ["Home", "Projects", "Studio", "Contact"];
+  const navItems = [{ label: "Home", link: 'en' }, { label: "Projects", link: 'en/projects' },];
 
   const linkClass = (extra = "") =>
     `no-underline tracking-widest text-xs font-light uppercase hover:opacity-60 transition-opacity ${extra}`;
@@ -28,11 +28,9 @@ export const Header = () => {
   return (
     <>
       <header
-        className={`w-full px-4 py-4 top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-          scrolled || menuOpen ? "fixed" : "absolute"
-        } ${
-          scrolled && !menuOpen ? "bg-[#eeece8] shadow-sm" : "bg-transparent"
-        }`}
+        className={`w-full px-4 py-4 top-0 left-0 right-0 z-50 transition-colors duration-300 ${scrolled || menuOpen ? "fixed" : "absolute"
+          } ${scrolled && !menuOpen ? "bg-[#eeece8] shadow-sm" : "bg-transparent"
+          }`}
       >
         <div className="flex items-center justify-between">
 
@@ -47,9 +45,8 @@ export const Header = () => {
                 ATELIER
               </span>
               <span
-                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-md ${
-                  scrolled && !menuOpen ? "text-black" : "text-white"
-                }`}
+                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-md ${scrolled && !menuOpen ? "text-black" : "text-white"
+                  }`}
                 style={{ fontFamily: "var(--font-dancing)", top: "28%" }}
               >
                 vedrana marković
@@ -61,13 +58,13 @@ export const Header = () => {
           {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
             {navItems.map((item) => (
-              <li key={item}>
+              <li key={item.label}>
                 <Link
-                  href={`/${item.toLowerCase()}`}
+                  href={`/${item.link}`}
                   className={linkClass(scrolled ? "text-black" : "text-white")}
                   style={{ fontFamily: "var(--font-cormorant)" }}
                 >
-                  {item}
+                  {item.label}
                 </Link>
               </li>
             ))}
@@ -80,27 +77,24 @@ export const Header = () => {
             aria-label="Toggle menu"
           >
             <span
-              className={`block w-6 h-px transition-all duration-300 origin-center ${
-                menuOpen
-                  ? "rotate-45 translate-y-[6px] bg-white"
+              className={`block w-6 h-0.5 transition-all duration-300 origin-center ${menuOpen
+                  ? "rotate-45 translate-y-[7px] bg-white"
                   : scrolled
                     ? "bg-black"
                     : "bg-white"
-              }`}
+                }`}
             />
             <span
-              className={`block w-6 h-px transition-all duration-300 ${
-                menuOpen ? "opacity-0" : scrolled ? "bg-black" : "bg-white"
-              }`}
+              className={`block w-6 h-0.5 transition-all duration-300 ${menuOpen ? "opacity-0" : scrolled ? "bg-black" : "bg-white"
+                }`}
             />
             <span
-              className={`block w-6 h-px transition-all duration-300 origin-center ${
-                menuOpen
-                  ? "-rotate-45 -translate-y-[6px] bg-white"
+              className={`block w-6 h-0.5 transition-all duration-300 origin-center ${menuOpen
+                  ? "-rotate-45 -translate-y-[7px] bg-white"
                   : scrolled
                     ? "bg-black"
                     : "bg-white"
-              }`}
+                }`}
             />
           </button>
 
@@ -109,17 +103,16 @@ export const Header = () => {
 
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
-          menuOpen
+        className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       >
         <ul className="flex flex-col items-center gap-10 list-none m-0 p-0">
           {navItems.map((item, i) => (
             <li
-              key={item}
+              key={item.label}
               style={{
                 transitionDelay: menuOpen ? `${i * 80}ms` : "0ms",
                 opacity: menuOpen ? 1 : 0,
@@ -128,12 +121,12 @@ export const Header = () => {
               }}
             >
               <Link
-                href={`/${item.toLowerCase()}`}
+                href={`/${item.link}`}
                 onClick={() => setMenuOpen(false)}
                 className="no-underline tracking-[0.4em] text-2xl font-light uppercase hover:scale-110 transition-transform"
                 style={{ fontFamily: "var(--font-cormorant)", color: "#fff" }}
               >
-                {item}
+                {item.label}
               </Link>
             </li>
           ))}

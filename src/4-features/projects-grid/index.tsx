@@ -11,7 +11,7 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
           className="text-xs tracking-[0.4em] uppercase text-black"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
-          Projekti
+          Projects
         </span>
         <div className="h-px flex-1 bg-black" />
       </div>

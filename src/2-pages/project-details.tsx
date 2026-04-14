@@ -10,7 +10,7 @@ const ProjectDetailsPage = async ({ slug }: Props) => {
 
   return (
     <main>
-      <div className="px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 lg:px-12 lg:py-16">
+      <div className="px-4 py-20 sm:px-6 sm:py-8 md:px-8 md:py-10 lg:px-12 lg:py-16">
         <h3
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl uppercase mb-6 sm:mb-8 md:mb-10 font-light tracking-wider"
           style={{
