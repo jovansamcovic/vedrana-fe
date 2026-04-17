@@ -1,5 +1,6 @@
 import HomePage from "@/src/2-pages/home";
 
+export const dynamic = "force-static";
 const locales = ["en", "sr"];
 
 export async function generateStaticParams() {
