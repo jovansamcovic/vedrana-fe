@@ -42,7 +42,10 @@ export async function getAllProjects(locale: string = "en"): Promise<Project[]> 
     { next: { revalidate: 60 } }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch projects");
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Failed to fetch projects: ${res.status} - ${errorText}`);
+  }
 
   const data: StrapiResponse<Project[]> = await res.json();
   return data.data;
