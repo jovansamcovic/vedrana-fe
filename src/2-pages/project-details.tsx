@@ -3,10 +3,11 @@ import Image from "next/image";
 
 type Props = {
   slug: string;
+  locale: string
 };
 
-const ProjectDetailsPage = async ({ slug }: Props) => {
-  const project = await getProjectBySlug(slug);
+const ProjectDetailsPage = async ({ slug, locale }: Props) => {
+  const project = await getProjectBySlug(slug, locale);
 
   return (
     <main>

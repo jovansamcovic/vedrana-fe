@@ -42,7 +42,7 @@ export default async function Page({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
-  return <ProjectDetailsPage slug={slug} />;
+  return <ProjectDetailsPage slug={slug} locale={locale} />;
 }

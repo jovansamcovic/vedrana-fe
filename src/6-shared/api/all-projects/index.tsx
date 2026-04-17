@@ -1,5 +1,3 @@
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-
 export interface StrapiImage {
   id: number;
   url: string;
@@ -36,25 +34,16 @@ interface StrapiResponse<T> {
   };
 }
 
-export async function getAllProjects(): Promise<Project[]> {
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+
+export async function getAllProjects(locale: string = "en"): Promise<Project[]> {
   const res = await fetch(
-    `${STRAPI_URL}/api/projects?populate=*&sort=year:desc`,
+    `${STRAPI_URL}/api/projects?populate=*&sort=year:desc&locale=${locale}&pagination[pageSize]=100`,
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) throw new Error("Failed to fetch projects");
 
   const data: StrapiResponse<Project[]> = await res.json();
   return data.data;
-}
-
-export async function getProjectBySlug(slug: string): Promise<Project | null> {
-  const res = await fetch(
-    `${STRAPI_URL}/api/projects?populate=*&sort=year:desc`,
-    { next: { revalidate: 60 } }
-  );
-
-  if (!res.ok) throw new Error("Failed to fetch project");
-
-  const data: StrapiResponse<Project[]> = await res.json();
-  return data.data[0] ?? null;
 }
