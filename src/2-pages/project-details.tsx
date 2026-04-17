@@ -3,11 +3,15 @@ import Image from "next/image";
 
 type Props = {
   slug: string;
-  locale: string
+  locale: string;
 };
 
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
   const project = await getProjectBySlug(slug, locale);
+
+  const gallery = [
+    ...(project?.galleryDesktop ?? []),
+  ];
 
   return (
     <main>
@@ -34,23 +38,21 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
             )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 max-w-6xl">
-          {project?.gallery.map((image) => {
-            return (
-              <div
-                key={image.id}
-                className="relative w-full overflow-hidden aspect-[4/5] rounded-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <Image
-                  src={image.url}
-                  alt={project?.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                  priority={false}
-                />
-              </div>
-            );
-          })}
+          {gallery.map((image) => (
+            <div
+              key={image.id}
+              className="relative w-full overflow-hidden aspect-[4/5] rounded-sm hover:shadow-lg transition-shadow duration-300"
+            >
+              <Image
+                src={image.url}
+                alt={project?.title ?? ""}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+                priority={false}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </main>

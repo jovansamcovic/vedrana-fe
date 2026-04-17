@@ -18,7 +18,7 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {projects.map((project:any) => {
-         const imageUrl = project.coverImage?.url || null;
+         const imageUrl = project.coverImageDesktop?.url || null;
 
           return (
             <Link

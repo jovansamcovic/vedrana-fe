@@ -13,14 +13,20 @@ type Props = {
 const HomePage = async ({ params }: Props) => {
   const { locale } = params;
 
-const projects = await getAllProjects(locale);
-const featuredProjects = await getFeaturedProjects(locale);
+  const projects = await getAllProjects(locale);
+  const featuredProjects = await getFeaturedProjects(locale);
+
+  console.log("featuredProjects")
+  console.log(featuredProjects)
+
+  console.log("projects");
+  console.log(projects)
 
   const slides = featuredProjects
-    .filter((p) => p.coverImage)
+    .filter((p) => p.coverImageDesktop)
     .map((p) => ({
-      src: p.coverImage!.url,
-      alt: p.coverImage?.alternativeText || p.title,
+      src: p.coverImageDesktop!.url,
+      alt: p.coverImageDesktop?.alternativeText || p.title,
       title: p.title,
     }));
 
@@ -57,7 +63,7 @@ const featuredProjects = await getFeaturedProjects(locale);
           className="text-xs tracking-[0.4em] uppercase text-black border-b border-black pb-px hover:opacity-50 transition-opacity no-underline"
           style={{ fontFamily: "var(--font-cormorant)" }}
         >
-         All Projects
+          All Projects
         </Link>
       </div>
     </main>
