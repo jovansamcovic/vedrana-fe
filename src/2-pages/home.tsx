@@ -13,8 +13,8 @@ type Props = {
 const HomePage = async ({ params }: Props) => {
   const { locale } = params;
 
-  const projects = await getAllProjects();
-  const featuredProjects = await getFeaturedProjects(locale);
+const projects = await getAllProjects(locale);
+const featuredProjects = await getFeaturedProjects(locale);
 
   const slides = featuredProjects
     .filter((p) => p.coverImage)
