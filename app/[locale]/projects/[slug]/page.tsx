@@ -15,7 +15,7 @@ export async function generateStaticParams() {
     const res = await fetch(
       `${baseUrl}/api/projects?locale=${locale}&fields[0]=slug`,
       {
-        cache: "no-store",
+        cache: "force-cache",
       },
     );
 
@@ -40,7 +40,7 @@ export async function generateStaticParams() {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
   const { slug } = await params;
 
