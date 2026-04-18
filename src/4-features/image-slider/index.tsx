@@ -17,17 +17,18 @@ export function GallerySlider({
   const [lightbox, setLightbox] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
+  // 🔒 Lock scroll kad je lightbox otvoren
   useEffect(() => {
-  if (lightbox) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
+    if (lightbox) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
-  return () => {
-    document.body.style.overflow = "";
-  };
-}, [lightbox]);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [lightbox]);
 
   const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
   const next = () => setCurrent((c) => (c + 1) % images.length);
@@ -39,18 +40,25 @@ export function GallerySlider({
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? next() : prev();
+    }
+
     touchStartX.current = null;
   };
 
-  const aspectClass = orientation === "portrait" ? "aspect-[3/4]" : "aspect-[16/10]";
+  const aspectClass =
+    orientation === "portrait" ? "aspect-[3/4]" : "aspect-[16/10]";
 
   if (!images.length) return null;
 
   return (
     <>
       {/* Slider */}
-      <div className={`relative w-full ${aspectClass} overflow-hidden rounded-sm bg-stone-100`}>
+      <div
+        className={`relative w-full ${aspectClass} overflow-hidden rounded-sm bg-stone-100`}
+      >
         {images.map((image, index) => (
           <div
             key={image.id}
@@ -69,21 +77,39 @@ export function GallerySlider({
           </div>
         ))}
 
+        {/* Strelice — samo desktop */}
         <button
           onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:opacity-60 transition-opacity"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:opacity-60 transition-opacity hidden md:block"
         >
           <ChevronLeft size={40} />
         </button>
+
         <button
           onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:opacity-60 transition-opacity"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:opacity-60 transition-opacity hidden md:block"
         >
           <ChevronRight size={40} />
         </button>
 
-        <div className="absolute bottom-4 right-6 z-10 text-white text-sm tracking-widest">
+        {/* Counter */}
+        <div className="absolute bottom-6 right-6 z-10 text-white text-sm tracking-widest">
           {current + 1} / {images.length}
+        </div>
+
+        {/* ✅ Dots indikator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`transition-all rounded-full ${
+                i === current
+                  ? "w-2.5 h-2.5 bg-white"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
         </div>
       </div>
 
@@ -101,7 +127,13 @@ export function GallerySlider({
                 : "opacity-50 hover:opacity-80"
             }`}
           >
-            <Image src={image.url} alt={title} fill className="object-cover" sizes="64px" />
+            <Image
+              src={image.url}
+              alt={title}
+              fill
+              className="object-cover"
+              sizes="64px"
+            />
           </button>
         ))}
       </div>
@@ -121,17 +153,22 @@ export function GallerySlider({
             <X size={32} />
           </button>
 
-          {/* Strelice — samo na desktopu */}
+          {/* Strelice — samo desktop */}
           <button
             className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:opacity-60 hidden md:block"
-            onClick={(e) => { e.stopPropagation(); prev(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              prev();
+            }}
           >
             <ChevronLeft size={48} />
           </button>
 
           <div
             className={`relative ${
-              orientation === "portrait" ? "aspect-[4/3] h-[80vh] max-w-[80vw]" : "max-h-[80vh] w-[90vw] aspect-[3/4]"
+              orientation === "portrait"
+                ? "aspect-[4/3] h-[80vh] max-w-[80vw]"
+                : "max-h-[80vh] w-[90vw] aspect-[3/4]"
             }`}
           >
             <Image
@@ -145,18 +182,23 @@ export function GallerySlider({
 
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:opacity-60 hidden md:block"
-            onClick={(e) => { e.stopPropagation(); next(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              next();
+            }}
           >
             <ChevronRight size={48} />
           </button>
 
-          {/* Swipe indikator — samo na mobilnom */}
+          {/* Dots — mobile (lightbox) */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden">
             {images.map((_, i) => (
               <div
                 key={i}
-                className={`w-1 h-1 rounded-full transition-opacity ${
-                  i === current ? "bg-white opacity-100" : "bg-white opacity-30"
+                className={`w-1.5 h-1.5 rounded-full transition-opacity ${
+                  i === current
+                    ? "bg-white opacity-100"
+                    : "bg-white opacity-30"
                 }`}
               />
             ))}
