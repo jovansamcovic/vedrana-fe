@@ -95,7 +95,7 @@ export const Header = () => {
   return (
     <>
       <header
-        className={`w-full px-10 py-4 top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`w-full px-4 py-4 top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled || menuOpen ? "fixed" : "absolute"
         } ${headerBg()}`}
       >
