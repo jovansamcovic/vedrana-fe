@@ -30,15 +30,20 @@ export function GallerySlider({
     };
   }, [lightbox]);
 
-  const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
+  const prev = () =>
+    setCurrent((c) => (c - 1 + images.length) % images.length);
+
   const next = () => setCurrent((c) => (c + 1) % images.length);
 
+  // 👉 swipe start
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
+  // 👉 swipe end
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
+
     const diff = touchStartX.current - e.changedTouches[0].clientX;
 
     if (Math.abs(diff) > 40) {
@@ -58,6 +63,9 @@ export function GallerySlider({
       {/* Slider */}
       <div
         className={`relative w-full ${aspectClass} overflow-hidden rounded-sm bg-stone-100`}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{ touchAction: "pan-y" }}
       >
         {images.map((image, index) => (
           <div
@@ -77,7 +85,7 @@ export function GallerySlider({
           </div>
         ))}
 
-        {/* Strelice — samo desktop */}
+        {/* Strelice (desktop only) */}
         <button
           onClick={prev}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:opacity-60 transition-opacity hidden md:block"
@@ -97,7 +105,7 @@ export function GallerySlider({
           {current + 1} / {images.length}
         </div>
 
-        {/* ✅ Dots indikator */}
+        {/* Dots */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {images.map((_, i) => (
             <button
@@ -146,6 +154,7 @@ export function GallerySlider({
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
+          {/* Close */}
           <button
             className="absolute top-4 right-4 text-white hover:opacity-60"
             onClick={() => setLightbox(false)}
@@ -153,7 +162,7 @@ export function GallerySlider({
             <X size={32} />
           </button>
 
-          {/* Strelice — samo desktop */}
+          {/* Prev (desktop) */}
           <button
             className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:opacity-60 hidden md:block"
             onClick={(e) => {
@@ -164,6 +173,7 @@ export function GallerySlider({
             <ChevronLeft size={48} />
           </button>
 
+          {/* Image */}
           <div
             className={`relative ${
               orientation === "portrait"
@@ -180,6 +190,7 @@ export function GallerySlider({
             />
           </div>
 
+          {/* Next (desktop) */}
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:opacity-60 hidden md:block"
             onClick={(e) => {
@@ -190,7 +201,7 @@ export function GallerySlider({
             <ChevronRight size={48} />
           </button>
 
-          {/* Dots — mobile (lightbox) */}
+          {/* Lightbox dots (mobile) */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden">
             {images.map((_, i) => (
               <div
