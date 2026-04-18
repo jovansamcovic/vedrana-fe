@@ -1,14 +1,39 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
-export const CrossfadeSlideshow = ({ slides = [] }: { slides: any[] }) => {
+export const CrossfadeSlideshow = ({
+  slides = [],
+}: {
+  slides: {
+    desktopUrl: string;
+    mobileUrl: string;
+    alt: string;
+    title: string;
+    slug: string;
+  }[];
+}) => {
   const [current, setCurrent] = useState(0);
 
   const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
   const next = () => setCurrent((c) => (c + 1) % slides.length);
+  const touchStartX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? next() : prev();
+    }
+    touchStartX.current = null;
+  };
 
   useEffect(() => {
     if (slides.length === 0) return;
@@ -21,20 +46,38 @@ export const CrossfadeSlideshow = ({ slides = [] }: { slides: any[] }) => {
   if (!slides || slides.length === 0) return null;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden flex flex-col justify-end">
-      {slides.map((img: any, index: number) => (
+    <div
+      className="relative w-full h-screen overflow-hidden flex flex-col justify-end"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {slides.map((img, index) => (
         <div
-          key={img.src + index}
+          key={img.desktopUrl + index}
           className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
           style={{ opacity: index === current ? 1 : 0 }}
         >
-          <Image
-            src={img.src}
-            alt={img.alt}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
+          {/* Mobile */}
+          <Link href={`projects/${img?.slug}`}>
+            <Image
+              src={img.mobileUrl}
+              alt={img.alt}
+              fill
+              className="object-cover block md:hidden"
+              priority={index === 0}
+            />
+          </Link>
+
+          {/* Desktop */}
+          <Link href={`projects/${img?.slug}`}>
+            <Image
+              src={img.desktopUrl}
+              alt={img.alt}
+              fill
+              className="object-cover hidden md:block"
+              priority={index === 0}
+            />
+          </Link>
         </div>
       ))}
 

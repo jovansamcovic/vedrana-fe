@@ -1,7 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const translations = {
+  en: {
+    sectionLabel: "Projects",
+    viewProject: "View Project →",
+  },
+  sr: {
+    sectionLabel: "Projekti",
+    viewProject: "Pogledaj projekat →",
+  },
+};
+
 export const ProjectsGrid = async ({ projects, locale }: any) => {
+  const t = translations[locale as keyof typeof translations] ?? translations.en;
+
   return (
     <section className="w-full bg-[#F5F3EF] px-6 md:px-12 lg:px-20 py-16 md:py-24">
       <div className="max-w-[1440px] mx-auto">
@@ -13,13 +26,13 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
             className="text-xs tracking-[0.4em] uppercase text-stone-500"
             style={{ fontFamily: "var(--font-cormorant)" }}
           >
-            Projects
+            {t.sectionLabel}
           </span>
           <div className="h-px flex-1 bg-stone-400" />
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((project: any) => {
             const desktopUrl = project.coverImageDesktop?.url || null;
             const mobileUrl = project.coverImageMobile?.url || null;
@@ -30,7 +43,6 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
                 href={`/${locale}/projects/${project.slug}`}
                 className="group relative block no-underline overflow-hidden aspect-[3/4] sm:aspect-[4/3]"
               >
-                {/* Mobile slika */}
                 {mobileUrl && (
                   <Image
                     src={mobileUrl}
@@ -41,7 +53,6 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
                   />
                 )}
 
-                {/* Desktop slika */}
                 {desktopUrl && (
                   <Image
                     src={desktopUrl}
@@ -52,15 +63,12 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
                   />
                 )}
 
-                {/* Fallback */}
                 {!mobileUrl && !desktopUrl && (
                   <div className="absolute inset-0 bg-stone-200" />
                 )}
 
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Title */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
                   <div className="h-px bg-[#C4A053] w-8 mb-3" />
                   <span
@@ -70,7 +78,7 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
                     {project.title}
                   </span>
                   <span className="text-xs tracking-[0.3em] uppercase text-[#C4A053] mt-1">
-                    View Project →
+                    {t.viewProject}
                   </span>
                 </div>
               </Link>
