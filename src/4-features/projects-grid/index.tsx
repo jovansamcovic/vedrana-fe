@@ -16,7 +16,7 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
   const t = translations[locale as keyof typeof translations] ?? translations.en;
 
   return (
-    <section className="w-full bg-[#F5F3EF] px-6 md:px-12 lg:px-20 py-16 md:py-24">
+    <section className="w-full bg-[#F5F3EF] px-6 md:px-12 lg:px-20 py-20 md:py-12">
       <div className="max-w-[1440px] mx-auto">
 
         {/* Header */}

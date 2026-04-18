@@ -55,9 +55,11 @@ export const CrossfadeSlideshow = ({
         <div
           key={img.desktopUrl + index}
           className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-          style={{ opacity: index === current ? 1 : 0 }}
+          style={{
+            opacity: index === current ? 1 : 0,
+            pointerEvents: index === current ? "auto" : "none", // ← ovo
+          }}
         >
-          {/* Mobile */}
           <Link href={`projects/${img?.slug}`}>
             <Image
               src={img.mobileUrl}
@@ -67,8 +69,6 @@ export const CrossfadeSlideshow = ({
               priority={index === 0}
             />
           </Link>
-
-          {/* Desktop */}
           <Link href={`projects/${img?.slug}`}>
             <Image
               src={img.desktopUrl}
@@ -80,7 +80,6 @@ export const CrossfadeSlideshow = ({
           </Link>
         </div>
       ))}
-
       <div className="relative z-10 flex flex-col">
         <div className="flex items-center justify-between px-8 py-3">
           <button

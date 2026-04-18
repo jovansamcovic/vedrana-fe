@@ -3,6 +3,7 @@ import { ProjectsGrid } from "../4-features/projects-grid";
 import { CrossfadeSlideshow } from "../4-features/slide-show";
 import { getAllProjects } from "../6-shared/api/all-projects";
 import { getFeaturedProjects } from "../6-shared/api/gallery";
+import Image from "next/image";
 
 type Props = {
   params: {
@@ -47,24 +48,62 @@ const HomePage = async ({ params }: Props) => {
     <main className="bg-[#F5F3EF]">
       <CrossfadeSlideshow slides={slides} />
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-24">
-        <div className="h-px bg-[#C4A053] w-16 mb-8" />
-        <h3
-          className="font-light tracking-[0.15em] uppercase mb-6"
-          style={{
-            color: "#C4A053",
-            fontSize: "clamp(2rem, 4vw, 3.5rem)",
-            fontFamily: "var(--font-cormorant)",
-          }}
-        >
-          {t.atelierTitle}
-        </h3>
-        <p
-          className="text-base md:text-lg leading-[1.9] text-stone-600 max-w-2xl"
-          style={{ fontFamily: "var(--font-cormorant)" }}
-        >
-          {t.atelierDescription}
-        </p>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-32">
+        <div className="flex flex-col md:flex-row md:items-center gap-10 md:gap-20 lg:gap-28">
+
+          {/* Tekst */}
+          <div className="flex-1 flex flex-col justify-center">
+            <div className="h-px bg-[#C4A053] w-16 mb-10" />
+
+            <h3
+              className="font-light tracking-[0.2em] uppercase mb-10"
+              style={{
+                color: "#C4A053",
+                fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                fontFamily: "var(--font-cormorant)",
+              }}
+            >
+              {t.atelierTitle}
+            </h3>
+
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-6 h-px bg-stone-400" />
+              <div className="w-1 h-1 rounded-full bg-stone-400" />
+            </div>
+
+            <p
+              className="text-base md:text-lg leading-[2] text-stone-500 max-w-lg"
+              style={{ fontFamily: "var(--font-cormorant)" }}
+            >
+              {t.atelierDescription}
+            </p>
+
+            <div className="mt-10 flex items-center gap-4">
+              <div className="w-12 h-px bg-[#C4A053] opacity-60" />
+              <span
+                className="text-sm tracking-[0.3em] text-[#C4A053] uppercase font-light"
+                style={{ fontFamily: "var(--font-cormorant)" }}
+              >
+                Vedrana Marković
+              </span>
+            </div>
+          </div>
+
+          {/* Slika */}
+          <div className="relative shrink-0 w-full md:w-[360px] lg:w-[440px]">
+            <div className="absolute -top-4 -right-4 w-full h-full border border-[#C4A053] opacity-20 hidden md:block" />
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <Image
+                src="https://www.journal.rs/wp-content/uploads/2023/11/Vedrana-Markovic-Jovana-Rakezic-Photography-0366-768x1151.jpg"
+                alt="Vedrana Marković"
+                fill
+                className="object-cover grayscale-[15%]"
+              />
+              <div className="absolute inset-0 bg-[#F5F3EF] opacity-5" />
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <ProjectsGrid projects={projects.slice(0, 3)} locale={locale} />

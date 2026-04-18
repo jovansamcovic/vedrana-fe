@@ -1,6 +1,5 @@
 import { GallerySlider } from "../4-features/image-slider";
 import { getProjectBySlug } from "../6-shared/api/project-details";
-import Image from "next/image";
 
 type Props = {
   slug: string;
@@ -9,7 +8,6 @@ type Props = {
 
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
   const project = await getProjectBySlug(slug, locale);
-  const gallery = project?.galleryDesktop ?? [];
 
   return (
     <main className="min-h-screen bg-[#F5F3EF]">
@@ -26,16 +24,29 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
           </h1>
         </div>
 
-        {/* Layout: slider levo, tekst desno */}
+        {/* Landscape slider — full width */}
+        <div className="mb-12 md:mb-16">
+          <GallerySlider
+            images={project?.galleryDesktop ?? []}
+            title={project?.title ?? ""}
+            orientation="landscape"
+          />
+        </div>
+
+        {/* Portrait slider + tekst */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-          {/* Slider */}
-          <div className="lg:sticky lg:top-8">
-            <GallerySlider images={gallery} title={project?.title ?? ""} />
+          {/* Portrait slider — na mobilnom ide poslednji (order-3), na desktopu levo (order-none) */}
+          <div className="lg:sticky lg:top-8 order-3 lg:order-none">
+            <GallerySlider
+              images={project?.galleryMobile ?? []}
+              title={project?.title ?? ""}
+              orientation="portrait"
+            />
           </div>
 
-          {/* Tekst */}
-          <div>
+          {/* Tekst — na mobilnom ide drugi (order-2), na desktopu desno (order-none) */}
+          <div className="order-2 lg:order-none">
             <div className="h-px bg-stone-300 mb-8" />
             {Array.isArray(project?.description) &&
               project.description.map((block: any, i: number) =>

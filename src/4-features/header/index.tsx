@@ -35,30 +35,23 @@ export const Header = () => {
     { label: "Projects", labelSr: "Projekti", link: "en/projects" },
   ];
 
-  const isHero = !scrolled && !menuOpen;
-
-  const headerBg = () => {
-    if (scrolled && !menuOpen) return "bg-[#eeece8] shadow-sm";
-    if (menuOpen) return "bg-transparent";
-    return "bg-gradient-to-b from-black/55 via-black/20 to-transparent";
-  };
+ const headerBg = () => {
+  if (scrolled && !menuOpen) return "bg-[#eeece8] shadow-sm";
+  return "bg-transparent";
+};
 
   const linkClass = (extra = "") =>
     `no-underline tracking-widest text-md font-bold uppercase hover:opacity-60 transition-opacity ${extra}`;
 
   const LanguageSwitcher = ({
     color,
-    size = "md",
-    withShadow = false,
+    size = "text-md",
   }: {
     color: string;
     size?: string;
-    withShadow?: boolean;
   }) => (
     <div
-      className={`flex items-center gap-2 ${size} ${
-        withShadow ? "[filter:drop-shadow(0_1px_6px_rgba(0,0,0,0.5))]" : ""
-      }`}
+      className={`flex items-center gap-2 ${size}`}
       style={{ fontFamily: "var(--font-cormorant)" }}
     >
       <button
@@ -80,7 +73,7 @@ export const Header = () => {
       </span>
       <button
         onClick={() => switchLocale("sr")}
-        className={`tracking-widest uppercase font-normal transition-all duration-200 cursor-pointer border-none bg-transparent p-0
+        className={`tracking-widest uppercase font-bold transition-all duration-200 cursor-pointer border-none bg-transparent p-0
           ${
             currentLocale === "sr"
               ? `${color} opacity-100 border-b border-current`
@@ -102,12 +95,7 @@ export const Header = () => {
         <div className="flex items-center justify-between">
 
           {/* Logo */}
-          <Link
-            href="/en"
-            className={`no-underline ${
-              isHero ? "[filter:drop-shadow(0_1px_8px_rgba(0,0,0,0.5))]" : ""
-            }`}
-          >
+          <Link href="/en" className="no-underline">
             <div className="flex flex-col items-center">
               <div
                 className={`w-full h-px ${
@@ -145,9 +133,7 @@ export const Header = () => {
                 <li key={item.label}>
                   <Link
                     href={`/${item.link}`}
-                    className={`${linkClass(scrolled ? "text-black" : "text-white")} ${
-                      isHero ? "[text-shadow:0_1px_8px_rgba(0,0,0,0.7)]" : ""
-                    }`}
+                    className={linkClass(scrolled ? "text-black" : "text-white")}
                     style={{ fontFamily: "var(--font-cormorant)" }}
                   >
                     {currentLocale === "sr" ? item.labelSr : item.label}
@@ -164,15 +150,12 @@ export const Header = () => {
 
             <LanguageSwitcher
               color={scrolled && !menuOpen ? "text-black" : "text-white"}
-              withShadow={isHero}
             />
           </div>
 
           {/* Hamburger */}
           <button
-            className={`md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-[60] relative ${
-              isHero ? "[filter:drop-shadow(0_1px_6px_rgba(0,0,0,0.5))]" : ""
-            }`}
+            className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-[60] relative"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-label="Toggle menu"
           >
