@@ -34,7 +34,7 @@ export const Footer = () => {
 
         <div className="h-px w-16 bg-stone-300" />
 
-        <p className="text-[10px] tracking-widest text-stone-400 uppercase">
+        <p className="text-[10px] tracking-widest text-stone-400 uppercase text-center">
           © {new Date().getFullYear()} Atelier Vedrana Marković. All rights reserved.
         </p>
 
