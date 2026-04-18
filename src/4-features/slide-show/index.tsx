@@ -47,7 +47,7 @@ export const CrossfadeSlideshow = ({
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden flex flex-col justify-end"
+      className="relative w-full h-[100svh] md:h-[100dvh] overflow-hidden flex flex-col justify-end"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -57,7 +57,7 @@ export const CrossfadeSlideshow = ({
           className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
           style={{
             opacity: index === current ? 1 : 0,
-            pointerEvents: index === current ? "auto" : "none", // ← ovo
+            pointerEvents: index === current ? "auto" : "none",
           }}
         >
           <Link href={`projects/${img?.slug}`}>
