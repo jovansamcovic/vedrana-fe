@@ -1,62 +1,82 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 
 export const ProjectsGrid = async ({ projects, locale }: any) => {
   return (
-    <section className="w-full px-4 md:px-8 py-16 md:py-24">
-      <div className="flex items-center gap-6 mb-10 md:mb-14">
-        <div className="h-px flex-1 bg-black" />
-        <span
-          className="text-xs tracking-[0.4em] uppercase text-black"
-          style={{ fontFamily: "var(--font-cormorant)" }}
-        >
-          Projects
-        </span>
-        <div className="h-px flex-1 bg-black" />
-      </div>
+    <section className="w-full bg-[#F5F3EF] px-6 md:px-12 lg:px-20 py-16 md:py-24">
+      <div className="max-w-[1440px] mx-auto">
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {projects.map((project:any) => {
-         const imageUrl = project.coverImageDesktop?.url || null;
+        {/* Header */}
+        <div className="flex items-center gap-6 mb-12 md:mb-16">
+          <div className="h-px flex-1 bg-stone-400" />
+          <span
+            className="text-xs tracking-[0.4em] uppercase text-stone-500"
+            style={{ fontFamily: "var(--font-cormorant)" }}
+          >
+            Projects
+          </span>
+          <div className="h-px flex-1 bg-stone-400" />
+        </div>
 
-          return (
-            <Link
-              key={project.slug}
-              href={`/${locale}/projects/${project.slug}`}
-              className="group relative flex flex-col no-underline overflow-hidden aspect-[4/5]"
-            >
-              {imageUrl ? (
-                <Image
-                  src={imageUrl}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-stone-200" />
-              )}
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+          {projects.map((project: any) => {
+            const desktopUrl = project.coverImageDesktop?.url || null;
+            const mobileUrl = project.coverImageMobile?.url || null;
 
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+            return (
+              <Link
+                key={project.slug}
+                href={`/${locale}/projects/${project.slug}`}
+                className="group relative block no-underline overflow-hidden aspect-[3/4] sm:aspect-[4/3]"
+              >
+                {/* Mobile slika */}
+                {mobileUrl && (
+                  <Image
+                    src={mobileUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 block sm:hidden"
+                    sizes="100vw"
+                  />
+                )}
 
-              <div className="absolute bottom-6 left-5 right-5 z-10 flex flex-col gap-3">
-                <div className="flex items-center justify-between">
+                {/* Desktop slika */}
+                {desktopUrl && (
+                  <Image
+                    src={desktopUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 hidden sm:block"
+                    sizes="(max-width: 1024px) 50vw, 33vw"
+                  />
+                )}
+
+                {/* Fallback */}
+                {!mobileUrl && !desktopUrl && (
+                  <div className="absolute inset-0 bg-stone-200" />
+                )}
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Title */}
+                <div className="absolute inset-0 flex flex-col justify-end p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
+                  <div className="h-px bg-[#C4A053] w-8 mb-3" />
                   <span
-                    className="text-lg tracking-[0.3em] uppercase text-white group-hover:opacity-50 transition-opacity"
+                    className="text-xl tracking-[0.2em] uppercase text-white font-light"
                     style={{ fontFamily: "var(--font-cormorant)" }}
                   >
                     {project.title}
                   </span>
-                  <ChevronRight
-                    size={36}
-                    className="text-white group-hover:opacity-50 transition-opacity shrink-0"
-                  />
+                  <span className="text-xs tracking-[0.3em] uppercase text-[#C4A053] mt-1">
+                    View Project →
+                  </span>
                 </div>
-                <div className="border-t-2 border-white" />
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

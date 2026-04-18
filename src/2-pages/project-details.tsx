@@ -1,3 +1,4 @@
+import { GallerySlider } from "../4-features/image-slider";
 import { getProjectBySlug } from "../6-shared/api/project-details";
 import Image from "next/image";
 
@@ -8,51 +9,47 @@ type Props = {
 
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
   const project = await getProjectBySlug(slug, locale);
-
-  const gallery = [
-    ...(project?.galleryDesktop ?? []),
-  ];
+  const gallery = project?.galleryDesktop ?? [];
 
   return (
-    <main>
-      <div className="px-4 py-20 sm:px-6 sm:py-8 md:px-8 md:py-10 lg:px-12 lg:py-16">
-        <h3
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl uppercase mb-6 sm:mb-8 md:mb-10 font-light tracking-wider"
-          style={{
-            color: "#C4A053",
-          }}
-        >
-          {project?.title}
-        </h3>
-        <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 max-w-2xl lg:max-w-3xl">
-          {Array.isArray(project?.description) &&
-            project.description.map((block: any, i: number) =>
-              block.children?.map((child: any, j: number) => (
-                <p
-                  key={`${i}-${j}`}
-                  className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed sm:leading-relaxed md:leading-[1.8] lg:leading-[1.8] my-3 sm:my-4 md:my-5 text-gray-700"
-                >
-                  {child.text}
-                </p>
-              )),
-            )}
+    <main className="min-h-screen bg-[#F5F3EF]">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-24">
+
+        {/* Header */}
+        <div className="mb-12 md:mb-16">
+          <div className="h-px bg-[#C4A053] mb-8 w-16" />
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase font-light tracking-[0.15em]"
+            style={{ color: "#C4A053", fontFamily: "var(--font-cormorant)" }}
+          >
+            {project?.title}
+          </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 max-w-6xl">
-          {gallery.map((image) => (
-            <div
-              key={image.id}
-              className="relative w-full overflow-hidden aspect-[4/5] rounded-sm hover:shadow-lg transition-shadow duration-300"
-            >
-              <Image
-                src={image.url}
-                alt={project?.title ?? ""}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                priority={false}
-              />
-            </div>
-          ))}
+
+        {/* Layout: slider levo, tekst desno */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+          {/* Slider */}
+          <div className="lg:sticky lg:top-8">
+            <GallerySlider images={gallery} title={project?.title ?? ""} />
+          </div>
+
+          {/* Tekst */}
+          <div>
+            <div className="h-px bg-stone-300 mb-8" />
+            {Array.isArray(project?.description) &&
+              project.description.map((block: any, i: number) =>
+                block.children?.map((child: any, j: number) => (
+                  <p
+                    key={`${i}-${j}`}
+                    className="text-base md:text-lg leading-[1.9] mb-6 text-stone-600"
+                    style={{ fontFamily: "var(--font-cormorant)" }}
+                  >
+                    {child.text}
+                  </p>
+                ))
+              )}
+          </div>
         </div>
       </div>
     </main>

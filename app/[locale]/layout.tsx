@@ -1,3 +1,4 @@
+import { Footer } from "@/src/4-features/footer";
 import { Header } from "@/src/4-features/header";
 
 export default function Layout({ children }: any) {
@@ -5,6 +6,7 @@ export default function Layout({ children }: any) {
     <>
       <Header/>
       {children}
+      <Footer/>
     </>
   );
 }

@@ -35,6 +35,7 @@ export const Header = () => {
         <div className="flex items-center justify-between">
 
           {/* Logo */}
+          <Link href="/en" className="no-underline">
           <div className="flex flex-col items-center">
             <div className={`w-full h-px ${scrolled && !menuOpen ? "bg-black" : "bg-white"}`} />
             <div className="relative px-4 pt-1 pb-4">
@@ -54,6 +55,7 @@ export const Header = () => {
             </div>
             <div className={`w-full h-px ${scrolled && !menuOpen ? "bg-black" : "bg-white"}`} />
           </div>
+          </Link>
 
           {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
