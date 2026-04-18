@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export function GallerySlider({
@@ -16,6 +16,18 @@ export function GallerySlider({
   const [current, setCurrent] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+  if (lightbox) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [lightbox]);
 
   const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
   const next = () => setCurrent((c) => (c + 1) % images.length);
@@ -119,7 +131,7 @@ export function GallerySlider({
 
           <div
             className={`relative ${
-              orientation === "portrait" ? "w-[50vw] h-[85vh]" : "w-[90vw] h-[85vh]"
+              orientation === "portrait" ? "aspect-[4/3] h-[80vh] max-w-[80vw]" : "max-h-[80vh] w-[90vw] aspect-[3/4]"
             }`}
           >
             <Image
