@@ -29,9 +29,7 @@ export const CrossfadeSlideshow = ({
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? next() : prev();
-    }
+    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
     touchStartX.current = null;
   };
 
@@ -47,10 +45,11 @@ export const CrossfadeSlideshow = ({
 
   return (
     <div
-      className="relative w-full h-[100svh] md:h-[100dvh] overflow-hidden flex flex-col justify-end"
+      className="relative w-full h-[100svh] md:h-[100dvh] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Slike */}
       {slides.map((img, index) => (
         <div
           key={img.desktopUrl + index}
@@ -60,7 +59,7 @@ export const CrossfadeSlideshow = ({
             pointerEvents: index === current ? "auto" : "none",
           }}
         >
-          <Link href={`projects/${img?.slug}`}>
+          <Link href={`projects/${img?.slug}`} className="block w-full h-full">
             <Image
               src={img.mobileUrl}
               alt={img.alt}
@@ -68,8 +67,6 @@ export const CrossfadeSlideshow = ({
               className="object-cover block md:hidden"
               priority={index === 0}
             />
-          </Link>
-          <Link href={`projects/${img?.slug}`}>
             <Image
               src={img.desktopUrl}
               alt={img.alt}
@@ -80,33 +77,71 @@ export const CrossfadeSlideshow = ({
           </Link>
         </div>
       ))}
-      <div className="relative z-10 flex flex-col">
-        <div className="flex items-center justify-between px-8 py-3">
-          <button
-            onClick={prev}
-            className="text-white hover:opacity-60 transition-opacity"
-            aria-label="Prethodna slika"
-          >
-            <ChevronLeft size={40} />
-          </button>
-          <button
-            onClick={next}
-            className="text-white hover:opacity-60 transition-opacity"
-            aria-label="Sledeća slika"
-          >
-            <ChevronRight size={40} />
-          </button>
-        </div>
 
-        <div className="border-t border-white mx-8" />
+      {/* Gradient odozdo */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
 
-        <div className="px-8 py-4">
-          <span
-            className="text-white text-sm tracking-widest uppercase"
-            style={{ fontFamily: "var(--font-cormorant)" }}
-          >
-            {slides[current].title}
-          </span>
+      {/* Donji UI */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 px-8 md:px-16 pb-10 md:pb-14">
+        <div className="flex items-end justify-between">
+
+          {/* Levo — naziv projekta */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-px bg-[#C4A053]" />
+              <span
+                className="text-[#C4A053] text-xs tracking-[0.3em] uppercase"
+                style={{ fontFamily: "var(--font-cormorant)" }}
+              >
+                Project
+              </span>
+            </div>
+            <Link href={`projects/${slides[current]?.slug}`}>
+              <h2
+                className="text-white text-xl md:text-4xl font-light tracking-[0.15em] uppercase hover:opacity-70 transition-opacity"
+                style={{ fontFamily: "var(--font-cormorant)" }}
+              >
+                {slides[current].title}
+              </h2>
+            </Link>
+            {/* Dots */}
+            <div className="flex items-center gap-2 mt-1">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrent(i)}
+                  className="transition-all duration-300"
+                  aria-label={`Idi na slajd ${i + 1}`}
+                >
+                  <div
+                    className={`h-px transition-all duration-300 ${
+                      i === current ? "w-8 bg-[#C4A053]" : "w-3 bg-white/40"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Desno — navigacija */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={prev}
+              className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+              aria-label="Prethodna"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <div className="w-px h-4 bg-white/30" />
+            <button
+              onClick={next}
+              className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+              aria-label="Sledeća"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
