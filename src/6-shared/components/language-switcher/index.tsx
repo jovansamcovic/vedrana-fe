@@ -1,6 +1,5 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 
 export const LanguageSwitcher = ({
   color,
@@ -20,33 +19,30 @@ export const LanguageSwitcher = ({
   };
 
   return (
-    <div className={`flex items-center gap-3 ${size}`}>
+    <div
+      className={`flex items-center gap-3 ${size}`}
+      style={{ fontFamily: "var(--font-cormorant)" }}
+    >
       <button
         onClick={() => switchLocale("en")}
-        className={`transition-all duration-200 cursor-pointer border-none bg-transparent p-0
-          ${currentLocale === "en" ? "opacity-100" : "opacity-40 hover:opacity-70"}`}
+        className={`tracking-[0.2em] uppercase transition-all duration-200 cursor-pointer border-none bg-transparent p-0 text-sm ${
+          currentLocale === "en"
+            ? `${color} opacity-100`
+            : `${color} opacity-30 hover:opacity-60`
+        }`}
       >
-        <Image
-          src="https://flagcdn.com/w40/gb.png"
-          alt="English"
-          width={32}
-          height={20}
-          className="rounded-sm"
-        />
+        EN
       </button>
-      <span className={`${color} opacity-30 font-extralight`}>·</span>
+      <span className={`${color} opacity-20`} style={{ fontSize: "0.6rem" }}>|</span>
       <button
         onClick={() => switchLocale("sr")}
-        className={`transition-all duration-200 cursor-pointer border-none bg-transparent p-0
-          ${currentLocale === "sr" ? "opacity-100" : "opacity-40 hover:opacity-70"}`}
+        className={`tracking-[0.2em] uppercase transition-all duration-200 cursor-pointer border-none bg-transparent p-0 text-sm ${
+          currentLocale === "sr"
+            ? `${color} opacity-100`
+            : `${color} opacity-30 hover:opacity-60`
+        }`}
       >
-        <Image
-          src="https://flagcdn.com/w40/rs.png"
-          alt="Srpski"
-          width={32}
-          height={20}
-          className="rounded-sm"
-        />
+        SR
       </button>
     </div>
   );
