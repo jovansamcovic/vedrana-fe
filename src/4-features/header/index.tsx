@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "@/src/6-shared/components/language-switcher";
 
-export const Header = () => {
+export const Header = ({ locale }: { locale: string }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const currentLocale = pathname.startsWith("/sr") ? "sr" : "en";
-  const isHome = /^\/(en|sr)\/?$/.test(pathname);
+  const isHome = new RegExp(`^/${locale}/?$`).test(pathname);
   const isLight = isHome && !scrolled && !menuOpen;
 
   useEffect(() => {
@@ -28,10 +27,10 @@ export const Header = () => {
   }, [menuOpen]);
 
   const navItems = [
-    { label: "Home", labelSr: "Početna", link: "en" },
-    { label: "Projects", labelSr: "Projekti", link: "en/projects" },
-    { label: "Contact", labelSr: "Kontakt", link: "en/contact"},
-    { label: "Publications", labelSr: "Publikacije", link: "en/publications"}
+    { label: "Home", labelSr: "Početna", link: "" },
+    { label: "Projects", labelSr: "Projekti", link: "projects" },
+    { label: "Contact", labelSr: "Kontakt", link: "contact" },
+    { label: "Publications", labelSr: "Publikacije", link: "publications" },
   ];
 
   const headerBg = () => {
@@ -52,7 +51,8 @@ export const Header = () => {
       >
         <div className="flex items-center justify-between">
 
-          <Link href="/en" className="no-underline">
+          {/* LOGO */}
+          <Link href={`/${locale}`} className="no-underline">
             <div className="flex flex-col items-center">
               <div className={`w-full h-px ${lineColor}`} />
               <div className="relative px-4 pt-1 pb-4">
@@ -73,25 +73,28 @@ export const Header = () => {
             </div>
           </Link>
 
+          {/* DESKTOP NAV */}
           <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0 absolute left-1/2 -translate-x-1/2">
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link
-                  href={`/${item.link}`}
+                  href={`/${locale}${item.link ? `/${item.link}` : ""}`}
                   className={`no-underline tracking-widest text-md font-bold uppercase hover:opacity-60 transition-opacity ${textColor}`}
                   style={{ fontFamily: "var(--font-cormorant)" }}
                 >
-                  {currentLocale === "sr" ? item.labelSr : item.label}
+                  {locale === "sr" ? item.labelSr : item.label}
                 </Link>
               </li>
             ))}
           </ul>
 
+          {/* RIGHT SIDE */}
           <div className="flex items-center gap-4">
             <div className="hidden md:block">
               <LanguageSwitcher color={textColor} />
             </div>
 
+            {/* BURGER */}
             <button
               className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-[60] relative"
               onClick={() => setMenuOpen((prev) => !prev)}
@@ -118,6 +121,7 @@ export const Header = () => {
         </div>
       </header>
 
+      {/* MOBILE MENU */}
       <div
         className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -136,12 +140,12 @@ export const Header = () => {
               }}
             >
               <Link
-                href={`/${item.link}`}
+                href={`/${locale}${item.link ? `/${item.link}` : ""}`}
                 onClick={() => setMenuOpen(false)}
                 className="no-underline tracking-[0.4em] text-2xl font-normal uppercase hover:scale-110 transition-transform"
                 style={{ fontFamily: "var(--font-cormorant)", color: "#fff" }}
               >
-                {currentLocale === "sr" ? item.labelSr : item.label}
+                {locale === "sr" ? item.labelSr : item.label}
               </Link>
             </li>
           ))}

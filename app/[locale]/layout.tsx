@@ -11,13 +11,10 @@ export default async function Layout({
 }) {
   const { locale } = await params;
 
-  console.log("locale")
-  console.log(locale)
-
   return (
     <>
       <LoadingScreen key={locale} locale={locale as "sr" | "en"} />
-      <Header />
+      <Header locale={locale}/>
       {children}
       <Footer />
     </>
