@@ -30,6 +30,8 @@ export const Header = () => {
   const navItems = [
     { label: "Home", labelSr: "Početna", link: "en" },
     { label: "Projects", labelSr: "Projekti", link: "en/projects" },
+    { label: "Contact", labelSr: "Kontakt", link: "en/contact"},
+    { label: "Publications", labelSr: "Publikacije", link: "en/publications"}
   ];
 
   const headerBg = () => {
