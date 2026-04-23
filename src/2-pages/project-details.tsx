@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { GallerySlider } from "../4-features/image-slider";
 import { getProjectBySlug } from "../6-shared/api/project-details";
 
@@ -9,6 +10,10 @@ type Props = {
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
   const project = await getProjectBySlug(slug, locale);
 
+  if (!project) {
+    notFound();
+  }
+
   return (
     <main className="min-h-screen bg-[#F5F3EF]">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-24">
@@ -16,12 +21,14 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
         {/* Header */}
         <div className="mb-16 md:mb-20">
           <div className="h-px bg-[#C4A053] mb-6 w-10" />
+
           <h1
             className="text-2xl sm:text-3xl md:text-4xl uppercase font-light tracking-[0.25em] mb-6"
             style={{ color: "#C4A053", fontFamily: "var(--font-cormorant)" }}
           >
-            {project?.title}
+            {project.title ?? ""}
           </h1>
+
           <div className="flex items-center gap-3">
             <div className="h-px bg-stone-300 w-8" />
             <span
@@ -36,13 +43,13 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
         {/* Landscape slider */}
         <div className="mb-20 md:mb-28">
           <GallerySlider
-            images={project?.galleryDesktop ?? []}
-            title={project?.title ?? ""}
+            images={project.galleryDesktop ?? []}
+            title={project.title ?? ""}
             orientation="landscape"
           />
         </div>
 
-        {/* Dekorativni separator */}
+        {/* Separator */}
         <div className="flex items-center gap-4 mb-20">
           <div className="h-px flex-1 bg-stone-200" />
           <div className="w-1 h-1 rounded-full bg-[#C4A053] opacity-50" />
@@ -51,22 +58,23 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
           <div className="h-px flex-1 bg-stone-200" />
         </div>
 
-        {/* Portrait slider + tekst */}
+        {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
           {/* Portrait slider */}
           <div className="lg:sticky lg:top-8 order-3 lg:order-none">
             <GallerySlider
-              images={project?.galleryMobile ?? []}
-              title={project?.title ?? ""}
+              images={project.galleryMobile ?? []}
+              title={project.title ?? ""}
               orientation="portrait"
             />
           </div>
 
-          {/* Tekst */}
+          {/* Text */}
           <div className="order-2 lg:order-none">
             <div className="h-px bg-[#C4A053] w-10 mb-10" />
-            {Array.isArray(project?.description) &&
+
+            {Array.isArray(project.description) &&
               project.description.map((block: any, i: number) =>
                 block.children?.map((child: any, j: number) =>
                   child.text ? (

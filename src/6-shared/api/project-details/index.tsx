@@ -1,24 +1,21 @@
-import { Project, StrapiResponse } from "../../types";
+export async function getProjectBySlug(slug: string, locale: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const res = await fetch(
+    `${baseUrl}/api/projects?filters[slug][$eq]=${slug}&locale=${locale}&populate=*`
+  );
 
-export async function getProjectBySlug(slug: string, locale: string = "sr"): Promise<Project | null> {
-  try {
-    const res = await fetch(
-      `${STRAPI_URL}/api/projects?populate=*&filters[slug][$eq]=${slug}&locale=${locale}`,
-      { next: { revalidate: 0 } }
-    );
-
-    if (!res.ok) return null;
-
-    const data: StrapiResponse<Project[]> = await res.json();
-
-    if (!data.data[0] && locale !== "en") {
-      return getProjectBySlug(slug, "en");
-    }
-
-    return data.data[0] ?? null;
-  } catch {
+  if (!res.ok) {
     return null;
   }
+
+  const data = await res.json();
+
+  const project = data?.data?.[0];
+
+  if (!project) {
+    return null;
+  }
+
+  return project;
 }
