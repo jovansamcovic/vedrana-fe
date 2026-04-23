@@ -29,8 +29,10 @@ export const Header = ({ locale }: { locale: string }) => {
   const navItems = [
     { label: "Home", labelSr: "Početna", link: "" },
     { label: "Projects", labelSr: "Projekti", link: "projects" },
-    { label: "Contact", labelSr: "Kontakt", link: "contact" },
+    { label: "Services", labelSr: "Usluge", link: "services" },
     { label: "Publications", labelSr: "Publikacije", link: "publications" },
+    { label: "FAQ", labelSr: "Česta pitanja", link: "faq" },
+    { label: "Contact", labelSr: "Kontakt", link: "contact" },
   ];
 
   const headerBg = () => {
@@ -50,7 +52,6 @@ export const Header = ({ locale }: { locale: string }) => {
         } ${headerBg()}`}
       >
         <div className="flex items-center justify-between">
-
           {/* LOGO */}
           <Link href={`/${locale}`} className="no-underline">
             <div className="flex flex-col items-center">
@@ -58,7 +59,10 @@ export const Header = ({ locale }: { locale: string }) => {
               <div className="relative px-4 pt-1 pb-4">
                 <span
                   className="tracking-[0.5em] text-md font-normal uppercase block leading-none"
-                  style={{ fontFamily: "var(--font-cormorant)", color: "#C4A053" }}
+                  style={{
+                    fontFamily: "var(--font-cormorant)",
+                    color: "#C4A053",
+                  }}
                 >
                   ATELIER
                 </span>
@@ -112,19 +116,22 @@ export const Header = ({ locale }: { locale: string }) => {
               />
               <span
                 className={`block w-6 h-0.5 transition-all duration-300 origin-center ${
-                  menuOpen ? "-rotate-45 -translate-y-[7px] bg-white" : lineColor
+                  menuOpen
+                    ? "-rotate-45 -translate-y-[7px] bg-white"
+                    : lineColor
                 }`}
               />
             </button>
           </div>
-
         </div>
       </header>
 
       {/* MOBILE MENU */}
       <div
         className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       >
@@ -154,7 +161,9 @@ export const Header = ({ locale }: { locale: string }) => {
         <div
           className="flex flex-col items-center"
           style={{
-            transitionDelay: menuOpen ? `${navItems.length * 80 + 60}ms` : "0ms",
+            transitionDelay: menuOpen
+              ? `${navItems.length * 80 + 60}ms`
+              : "0ms",
             opacity: menuOpen ? 1 : 0,
             transform: menuOpen ? "translateY(0)" : "translateY(16px)",
             transition: "opacity 500ms, transform 500ms",

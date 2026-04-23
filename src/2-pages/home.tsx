@@ -4,6 +4,8 @@ import { CrossfadeSlideshow } from "../4-features/slide-show";
 import { getAllProjects } from "../6-shared/api/all-projects";
 import { getFeaturedProjects } from "../6-shared/api/gallery";
 import Image from "next/image";
+import { getAbouts } from "../6-shared/api/get-about";
+import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 type Props = {
   params: {
@@ -33,7 +35,7 @@ const HomePage = async ({ params }: Props) => {
 
   const projects = await getAllProjects(locale);
   const featuredProjects = await getFeaturedProjects(locale);
-
+  const abouts = await getAbouts(locale);
   const slides = featuredProjects
     .filter((p) => p.coverImageDesktop)
     .map((p) => ({
@@ -63,7 +65,7 @@ const HomePage = async ({ params }: Props) => {
                 fontFamily: "var(--font-cormorant)",
               }}
             >
-              {t.atelierTitle}
+              {abouts[0]?.title}
             </h3>
 
             <div className="flex items-center gap-4 mb-8">
@@ -71,12 +73,14 @@ const HomePage = async ({ params }: Props) => {
               <div className="w-1 h-1 rounded-full bg-stone-400" />
             </div>
 
-            <p
+            <div
               className="text-base md:text-lg leading-[2] text-stone-500 max-w-lg"
               style={{ fontFamily: "var(--font-cormorant)" }}
             >
-              {t.atelierDescription}
-            </p>
+              {abouts[0]?.description ? (
+                <BlocksRenderer content={abouts[0].description} />
+              ) : null}
+            </div>
 
             <div className="mt-10 flex items-center gap-4">
               <div className="w-12 h-px bg-[#C4A053] opacity-60" />

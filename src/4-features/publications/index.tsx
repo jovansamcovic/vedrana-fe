@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Publication } from "@/src/6-shared/api/get-publications";
 
 const cormorant = { fontFamily: "var(--font-cormorant)" };
 
@@ -13,17 +13,6 @@ const translations = {
   },
 };
 
-type Category = "enterijer" | "intervju" | "profil";
-
-export interface Publication {
-  id: number;
-  year: string;
-  magazine: string;
-  title: string;
-  excerpt: string;
-  href: string;
-  coverImage: string;
-}
 
 const PlaceholderCover = ({ magazine }: { magazine: string }) => (
   <div className="w-full h-full flex items-end p-2 bg-[#E8E4DC]">
@@ -43,13 +32,17 @@ export function Publications({
   publications: Publication[];
   locale: string;
 }) {
-  const t = translations[locale as keyof typeof translations] ?? translations.sr;
+  const t =
+    translations[locale as keyof typeof translations] ?? translations.sr;
 
-  const byYear = publications.reduce<Record<string, Publication[]>>((acc, pub) => {
-    if (!acc[pub.year]) acc[pub.year] = [];
-    acc[pub.year].push(pub);
-    return acc;
-  }, {});
+  const byYear = publications.reduce<Record<string, Publication[]>>(
+    (acc, pub) => {
+      if (!acc[pub.year]) acc[pub.year] = [];
+      acc[pub.year].push(pub);
+      return acc;
+    },
+    {}
+  );
 
   const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 
@@ -58,12 +51,14 @@ export function Publications({
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 py-16 lg:py-20">
         {years.map((year, yi) => (
           <div key={year} className={yi > 0 ? "mt-20 lg:mt-24" : ""}>
-            
             {/* Year */}
             <div className="flex items-center gap-6 lg:gap-8 mb-10 lg:mb-12">
               <span
                 className="text-stone-200 font-light leading-none"
-                style={{ ...cormorant, fontSize: "clamp(2.5rem, 8vw, 3.5rem)" }}
+                style={{
+                  ...cormorant,
+                  fontSize: "clamp(2.5rem, 8vw, 3.5rem)",
+                }}
               >
                 {year}
               </span>
@@ -77,21 +72,41 @@ export function Publications({
 
                   {/* ROW */}
                   <div className="group grid grid-cols-[90px_1fr] lg:grid-cols-[120px_1fr_180px] gap-4 lg:gap-0 py-8 lg:py-10 transition hover:bg-[#C4A053]/[0.03]">
-
                     {/* COVER */}
                     <div>
                       <div className="relative overflow-hidden w-[80px] h-[110px] lg:w-[96px] lg:h-[128px]">
                         <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#C4A053] z-10" />
 
-                        {pub.coverImage ? (
+                        {/* Mobile cover */}
+                        {pub.coverImageMobile ? (
                           <img
-                            src={pub.coverImage}
+                            src={pub.coverImageMobile.url}
                             alt={pub.magazine}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="block lg:hidden w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             style={{ filter: "sepia(10%) contrast(0.95)" }}
                           />
                         ) : (
-                          <PlaceholderCover magazine={pub.magazine} />
+                          <div className="block lg:hidden w-full h-full">
+                            <PlaceholderCover
+                              magazine={pub.magazine}
+                            />
+                          </div>
+                        )}
+
+                        {/* Desktop cover */}
+                        {pub.coverImageDesktop ? (
+                          <img
+                            src={pub.coverImageDesktop.url}
+                            alt={pub.magazine}
+                            className="hidden lg:block w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            style={{ filter: "sepia(10%) contrast(0.95)" }}
+                          />
+                        ) : (
+                          <div className="hidden lg:block w-full h-full">
+                            <PlaceholderCover
+                              magazine={pub.magazine}
+                            />
+                          </div>
                         )}
                       </div>
                     </div>
@@ -125,7 +140,7 @@ export function Publications({
                         {pub.excerpt}
                       </p>
 
-                      {/* LINK (mobile + desktop fallback) */}
+                      {/* LINK (mobile) */}
                       <a
                         href={pub.href}
                         target="_blank"

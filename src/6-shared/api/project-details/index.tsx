@@ -2,7 +2,7 @@ import { Project, StrapiResponse } from "../../types";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-export async function getProjectBySlug(slug: string, locale: string = "en"): Promise<Project | null> {
+export async function getProjectBySlug(slug: string, locale: string = "sr"): Promise<Project | null> {
   const res = await fetch(
     `${STRAPI_URL}/api/projects?populate=*&filters[slug][$eq]=${slug}&locale=${locale}`,
     { next: { revalidate: 0 } }
