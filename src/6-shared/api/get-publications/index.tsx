@@ -2,7 +2,7 @@ import { StrapiResponse } from "../../types";
 
 export interface Publication {
   id: number;
-  year: number; // 👈 koristi number svuda
+  year: number;
   magazine: string;
   title: string;
   excerpt: string;
@@ -16,13 +16,17 @@ const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 export async function getPublications(
   locale: string = "sr",
 ): Promise<Publication[]> {
-  const res = await fetch(
-    `${STRAPI_URL}/api/publications?populate=*&locale=${locale}`,
-    { next: { revalidate: 60 } },
-  );
+  try {
+    const res = await fetch(
+      `${STRAPI_URL}/api/publications?populate=*&locale=${locale}`,
+      { next: { revalidate: 60 } },
+    );
 
-  if (!res.ok) throw new Error("Failed to fetch publications");
+    if (!res.ok) return [];
 
-  const data: StrapiResponse<Publication[]> = await res.json();
-  return data.data;
+    const data: StrapiResponse<Publication[]> = await res.json();
+    return data.data ?? [];
+  } catch {
+    return [];
+  }
 }

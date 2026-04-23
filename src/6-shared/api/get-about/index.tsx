@@ -9,13 +9,17 @@ export interface About {
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 
 export async function getAbouts(locale: string = "sr"): Promise<About[]> {
-  const res = await fetch(
-    `${STRAPI_URL}/api/abouts?populate=*&locale=${locale}`,
-    { next: { revalidate: 60 } }
-  );
+  try {
+    const res = await fetch(
+      `${STRAPI_URL}/api/abouts?populate=*&locale=${locale}`,
+      { next: { revalidate: 60 } }
+    );
 
-  if (!res.ok) throw new Error('Failed to fetch abouts');
+    if (!res.ok) return [];
 
-  const data: StrapiResponse<About[]> = await res.json();
-  return data.data;
+    const data: StrapiResponse<About[]> = await res.json();
+    return data.data ?? [];
+  } catch {
+    return [];
+  }
 }
