@@ -78,12 +78,23 @@ export const Header = ({ locale }: { locale: string }) => {
           </Link>
 
           {/* DESKTOP NAV */}
-          <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0 absolute left-1/2 -translate-x-1/2">
+          <ul
+            className="
+              hidden md:grid 
+              grid-cols-3 
+              justify-items-center items-center
+              gap-y-2 gap-x-6
+              max-w-[520px]
+              lg:flex lg:flex-nowrap lg:gap-8 lg:max-w-none
+              list-none m-0 p-0 
+              absolute left-1/2 -translate-x-1/2
+            "
+          >
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link
                   href={`/${locale}${item.link ? `/${item.link}` : ""}`}
-                  className={`no-underline tracking-widest text-md font-bold uppercase hover:opacity-60 transition-opacity ${textColor}`}
+                  className={`no-underline whitespace-nowrap tracking-[0.25em] text-sm lg:text-md font-medium uppercase hover:opacity-60 transition-opacity ${textColor}`}
                   style={{ fontFamily: "var(--font-cormorant)" }}
                 >
                   {locale === "sr" ? item.labelSr : item.label}
