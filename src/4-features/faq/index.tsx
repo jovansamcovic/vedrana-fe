@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 const cormorant = { fontFamily: "var(--font-cormorant)" };
@@ -16,6 +17,7 @@ type FaqSectionProps = {
   subtitle: string;
   contactText: string;
   contactCta: string;
+  locale: string;
 };
 
 export function FaqSection({
@@ -25,23 +27,25 @@ export function FaqSection({
   subtitle,
   contactText,
   contactCta,
+  locale,
 }: FaqSectionProps) {
   const [active, setActive] = useState(0);
   const answerRef = useRef<HTMLDivElement>(null);
 
   function handleSelect(i: number) {
     setActive(i);
-    // Na mobile-u skroluj do odgovora
     if (window.innerWidth < 768) {
       setTimeout(() => {
-        answerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        answerRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 50);
     }
   }
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 py-20 lg:py-32">
-
       {/* Header */}
       <div className="text-center mb-16">
         <span
@@ -71,7 +75,6 @@ export function FaqSection({
 
       {/* Grid */}
       <div className="max-w-[860px] mx-auto grid grid-cols-1 md:grid-cols-2 border-t border-[#d6cfc4]">
-
         {/* Leva kolona — pitanja */}
         <div className="md:border-r border-[#d6cfc4] md:pr-10">
           {items.map((item, i) => (
@@ -141,7 +144,7 @@ export function FaqSection({
           style={cormorant}
         >
           <span className="w-4 h-px bg-[#C4A053] inline-block" />
-          {contactCta}
+          <Link href={`/${locale}/contact`}>{contactCta}</Link>
         </span>
       </div>
     </div>

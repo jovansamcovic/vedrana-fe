@@ -16,7 +16,7 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
 
   return (
     <section className="w-full bg-[#F5F3EF] px-6 md:px-12 lg:px-20 py-20">
-      <div className="max-w-[1440px] mx-auto">
+      <div>
         {/* Header */}
         <div className="flex items-center gap-6 mb-12 md:mb-16">
           <div className="h-px flex-1 bg-stone-300" />

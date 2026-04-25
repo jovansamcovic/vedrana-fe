@@ -132,8 +132,7 @@ export function ServicesFlow({ phases, pageTitle, pageSubtitle, eyebrow }: Servi
                 <div
                   className="w-px flex-1 min-h-[28px]"
                   style={{
-                    background:
-                      "linear-gradient(to bottom, #C4A053 0%, #d6cfc4 60%, transparent 100%)",
+                    background:'#C4A053',
                     opacity: 0.6,
                   }}
                 />
@@ -156,7 +155,7 @@ export function ServicesFlow({ phases, pageTitle, pageSubtitle, eyebrow }: Servi
                   style={{
                     ...cormorant,
                     fontSize: "clamp(3rem, 6vw, 4rem)",
-                    opacity: 0.07,
+                    opacity: 0.2,
                     marginTop: "-0.15em",
                   }}
                 >

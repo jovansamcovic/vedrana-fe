@@ -32,6 +32,7 @@ export default async function FaqPage({ params }: { params: { locale: string } }
         subtitle={t.subtitle}
         contactText={t.contactText}
         contactCta={t.contactCta}
+        locale={locale}
       />
     </main>
   );
