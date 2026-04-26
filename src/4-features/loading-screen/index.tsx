@@ -1,189 +1,197 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const translations = {
-  sr: {
-    words: ["Prostor.", "Karakter.", "Identitet.", "Vaše."],
-    atelier: "Atelje",
-  },
-  en: {
-    words: ["Space.", "Character.", "Identity.", "Yours."],
-    atelier: "Atelier",
-  },
-};
+const GIF_DURATION = 2000;
+const WORD_DURATION = 500;
+const WORD_FADE = 300;
+const FADE_DURATION = 700;
 
-type Locale = keyof typeof translations;
+const DESKTOP_GIF = "/gifs/DeskGif.gif";
+const MOBILE_GIF = "/gifs/MobileGif.gif";
 
-const WORD_INTERVAL = 900;
-const FADE_DURATION = 900;
-
-// Svaka reč ima svoju sliku — isti index, isti trenutak promene
-const DEFAULT_IMAGES = [
-  "https://res.cloudinary.com/dyfbsb7to/image/upload/v1777085928/cover_fae619e5ef.jpg",
-  "https://res.cloudinary.com/dyfbsb7to/image/upload/v1777086927/7_b47de9fb02.webp",
-  "https://res.cloudinary.com/dyfbsb7to/image/upload/v1777086412/porodicni_dom_sl_taajpl2ebbf8217649_4adc2dc0de.webp",
-  "https://res.cloudinary.com/dyfbsb7to/image/upload/v1777087250/porodicni_dom_mn_t6aetm8ac2e9f9c4f4_a5f8f296ea.webp",
-];
+const WORDS_SR = ["Prostor.", "Karakter.", "Identitet.", "Vaše."];
+const WORDS_EN = ["Space.", "Character.", "Identity.", "Yours."];
 
 interface LoadingScreenProps {
-  locale?: Locale;
-  images?: string[];
+  locale?: "sr" | "en";
 }
 
-export const LoadingScreen = ({
-  locale = "sr",
-  images = DEFAULT_IMAGES,
-}: LoadingScreenProps) => {
-  const t = translations[locale] ?? translations.sr;
-  const wordsRef = useRef(t.words);
+export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
+  const atelier = locale === "en" ? "Atelier" : "Atelje";
+  const words = locale === "en" ? WORDS_EN : WORDS_SR;
 
-  const [done, setDone]               = useState(false);
-  const [pct, setPct]                 = useState(0);
-  const [index, setIndex]             = useState(0); // jedan index za i reč i sliku
+  const [phase, setPhase] = useState<"gif" | "words" | "logo">("gif");
+  const [wordIndex, setWordIndex] = useState(0);
   const [wordVisible, setWordVisible] = useState(false);
-  const [showLogo, setShowLogo]       = useState(false);
-  const [out, setOut]                 = useState(false);
+  const [logoVisible, setLogoVisible] = useState(false);
+  const [gifVisible, setGifVisible] = useState(true);
+  const [frozen, setFrozen] = useState(false);
+  const [out, setOut] = useState(false);
+  const [done, setDone] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const exit = () => {
-    setOut(true);
-    setTimeout(() => setDone(true), FADE_DURATION);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  const freezeGif = () => {
+    const img = imgRef.current;
+    const canvas = canvasRef.current;
+    if (img && canvas) {
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        canvas.width = img.naturalWidth || 1920;
+        canvas.height = img.naturalHeight || 1080;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+    }
+    setFrozen(true);
   };
 
   useEffect(() => {
-    const words = wordsRef.current;
+    const t1 = setTimeout(() => {
+      freezeGif();
+      setGifVisible(false);
+      setPhase("words");
 
-    setTimeout(() => setWordVisible(true), 300);
-
-    let i = 0;
-    const cycle = setInterval(() => {
-      i++;
-      if (i >= words.length) {
-        clearInterval(cycle);
-        // Izlaz poslednje reči → logo
-        setWordVisible(false);
-        setTimeout(() => setShowLogo(true), 400);
-        return;
-      }
-      // Reč i slika se menjaju zajedno, u istom trenutku
-      setWordVisible(false);
+      // Prva reč se pojavljuje
       setTimeout(() => {
-        setIndex(i);
         setWordVisible(true);
-      }, 350);
-    }, WORD_INTERVAL);
 
-    let current = 0;
-    intervalRef.current = setInterval(() => {
-      current += Math.random() * 3 + 0.5;
-      if (current >= 100) { current = 100; clearInterval(intervalRef.current!); }
-      setPct(Math.floor(current));
-    }, 50);
+        // Tek nakon što je prva reč vidljiva, počinje ciklus
+        setTimeout(cycleWords, WORD_FADE + WORD_DURATION);
+      }, 400);
 
-    const totalDuration = 300 + words.length * WORD_INTERVAL + 400 + 1200;
-    setTimeout(() => setOut(true), totalDuration);
-    setTimeout(() => setDone(true), totalDuration + FADE_DURATION);
+      let i = 0;
+      const totalWords = words.length;
 
-    return () => {
-      clearInterval(cycle);
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+      function cycleWords() {
+        setWordVisible(false);
+
+        setTimeout(() => {
+          i++;
+          if (i >= totalWords) {
+            setPhase("logo");
+            setLogoVisible(true);
+
+            setTimeout(() => {
+              setOut(true);
+              setTimeout(() => setDone(true), FADE_DURATION);
+            }, 1800);
+            return;
+          }
+          setWordIndex(i);
+          setWordVisible(true);
+          setTimeout(cycleWords, WORD_FADE + WORD_DURATION);
+        }, WORD_FADE);
+      }
+    }, GIF_DURATION);
+
+    return () => clearTimeout(t1);
   }, []);
-
   if (done) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity ease-in-out ${
-        out ? "opacity-0 pointer-events-none" : "opacity-100"
-      }`}
-      style={{ transitionDuration: `${FADE_DURATION}ms` }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={{
+        background: "#0a0a0a",
+        opacity: out ? 0 : 1,
+        pointerEvents: out ? "none" : "auto",
+        transition: `opacity ${FADE_DURATION}ms ease`,
+      }}
     >
-      {/* Slike — menjaju se zajedno sa rečima, isti index */}
-      {images.map((src, i) => (
-        <div
-          key={src}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${src})`,
-            opacity: i === index ? 1 : 0,
-            transition: "opacity 500ms ease-in-out",
-          }}
-        />
-      ))}
-
-      {/* Overlay */}
-      <div
-        className="absolute inset-0"
+      {/* GIF */}
+      <img
+        ref={imgRef}
+        src={isMobile ? MOBILE_GIF : DESKTOP_GIF}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover"
         style={{
-          background:
-            "linear-gradient(to bottom, rgba(20,18,14,0.72) 0%, rgba(20,18,14,0.52) 40%, rgba(20,18,14,0.58) 60%, rgba(20,18,14,0.82) 100%)",
+          opacity: gifVisible && !frozen ? 1 : 0,
+          transition: "opacity 600ms ease",
+          pointerEvents: "none",
         }}
       />
 
-      {/* X */}
-      <button
-        onClick={exit}
-        aria-label="Zatvori"
-        className="absolute top-8 right-8 z-20 text-[#F5F3EF] opacity-30 hover:opacity-80 transition-opacity duration-300"
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-          <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-        </svg>
-      </button>
+      {/* Canvas — zamrznuti frejm (nije vidljiv, samo drži ref) */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0, pointerEvents: "none" }}
+      />
 
-      {/* Tekst */}
-      <div className="relative z-10 flex flex-col items-center">
-        <div
-          className="relative flex items-center justify-center"
-          style={{ height: "clamp(44px, 8vw, 68px)", minWidth: "200px" }}
-        >
-          <span
-            className="font-cormorant font-light uppercase tracking-[0.22em] transition-opacity duration-500 ease-in-out"
-            style={{
-              fontSize: "clamp(28px, 5vw, 48px)",
-              color: "#F5F3EF",
-              opacity: wordVisible && !showLogo ? 1 : 0,
-            }}
-          >
-            {wordsRef.current[index]}
-          </span>
-        </div>
+      {/* Overlay na gifu */}
+      <div
+        className="absolute inset-0 z-[2]"
+        style={{
+          background: "rgba(0,0,0,0.30)",
+          opacity: gifVisible ? 1 : 0,
+          transition: "opacity 600ms ease",
+        }}
+      />
 
-        {/* Logo */}
-        <div
-          className="flex flex-col items-center transition-[opacity,transform] duration-[900ms] ease-in-out"
+      {/* Reči — crna pozadina */}
+      {phase === "words" && (
+        <span
+          className="relative z-10 font-cormorant font-light uppercase"
           style={{
-            opacity: showLogo ? 1 : 0,
-            transform: showLogo ? "translateY(0)" : "translateY(8px)",
+            fontSize: "clamp(28px, 5vw, 52px)",
+            letterSpacing: "0.22em",
+            color: "#F5F3EF",
+            opacity: wordVisible ? 1 : 0,
+            transition: `opacity ${WORD_FADE}ms ease`,
+          }}
+        >
+          {words[wordIndex]}
+        </span>
+      )}
+
+      {/* Logo */}
+      {phase === "logo" && (
+        <div
+          className="absolute z-10 flex flex-col items-center"
+          style={{
+            opacity: logoVisible ? 1 : 0,
+            transform: logoVisible ? "translateY(0)" : "translateY(10px)",
+            transition: "opacity 900ms ease, transform 900ms ease",
           }}
         >
           <span
-            className="font-cormorant font-light uppercase mb-[8px]"
-            style={{ fontSize: "10px", letterSpacing: "0.55em", color: "#C4A053" }}
+            className="font-cormorant font-light uppercase mb-2"
+            style={{
+              fontSize: "10px",
+              letterSpacing: "0.55em",
+              color: "#C4A053",
+            }}
           >
-            {t.atelier}
+            {atelier}
           </span>
           <div
-            className="mb-[8px] transition-[width] duration-[700ms] delay-200 ease-in-out"
-            style={{ height: "1px", background: "#C4A053", width: showLogo ? "48px" : "0px" }}
+            style={{
+              height: "1px",
+              background: "#C4A053",
+              marginBottom: "8px",
+              width: logoVisible ? "48px" : "0px",
+              transition: "width 700ms ease 200ms",
+            }}
           />
           <span
-            className="font-cormorant italic font-light tracking-[0.08em]"
-            style={{ fontSize: "clamp(18px, 3vw, 26px)", color: "#F5F3EF" }}
+            className="font-cormorant italic font-light"
+            style={{
+              fontSize: "clamp(20px, 3vw, 28px)",
+              letterSpacing: "0.08em",
+              color: "#F5F3EF",
+            }}
           >
             Vedrana Marković
           </span>
         </div>
-      </div>
-
-      {/* Progress */}
-      <div
-        className="absolute bottom-0 left-0 h-px z-10 transition-[width] duration-150 ease-linear"
-        style={{ width: `${pct}%`, background: "rgba(196,160,83,0.5)" }}
-      />
+      )}
     </div>
   );
 };
