@@ -98,7 +98,7 @@ const HomePage = async ({ params }: Props) => {
             <div className="absolute -top-4 -right-4 w-full h-full border border-[#C4A053] opacity-20 hidden md:block" />
             <div className="relative aspect-[3/4] overflow-hidden">
               <Image
-                src="https://www.journal.rs/wp-content/uploads/2023/11/Vedrana-Markovic-Jovana-Rakezic-Photography-0366-768x1151.jpg"
+                src="/Vedrana.webp"
                 alt="Vedrana Marković"
                 fill
                 className="object-cover grayscale-[15%]"
