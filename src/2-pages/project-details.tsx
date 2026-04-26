@@ -1,125 +1,122 @@
-// Server Component — bez "use client"
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getProjectBySlug } from "../6-shared/api/project-details";
 import { FadeSection } from "../4-features/face-section";
+import { GalleryGrid } from "../4-features/gallery-light-box";
 
 type Props = {
   slug: string;
   locale: string;
 };
 
-// Miksuje landscape i portrait slike u jedan niz
-// Pattern po redu: L L P | P L P | L L P ...
-// Svaka slika dobija span i aspect na osnovu pozicije u pattern-u
 type ImageItem = {
   id: number;
   url: string;
   orientation: "landscape" | "portrait";
 };
 
-type SlotConfig = {
-  cols: string;        // lg:col-span-X
-  aspect: string;      // aspect-[w/h]
-};
-
-// 9-slot pattern koji se ponavlja (3 reda po 3 kolone u 12-col gridu)
-const PATTERN: SlotConfig[] = [
-  { cols: "lg:col-span-5", aspect: "aspect-[16/10]" }, // L — velika landscape
-  { cols: "lg:col-span-4", aspect: "aspect-[16/10]" }, // L — manja landscape
-  { cols: "lg:col-span-3", aspect: "aspect-[3/4]"   }, // P — portrait
-  { cols: "lg:col-span-3", aspect: "aspect-[3/4]"   }, // P — portrait
-  { cols: "lg:col-span-5", aspect: "aspect-[16/10]" }, // L — landscape sredina
-  { cols: "lg:col-span-4", aspect: "aspect-[3/4]"   }, // P — portrait
-  { cols: "lg:col-span-4", aspect: "aspect-[16/10]" }, // L
-  { cols: "lg:col-span-4", aspect: "aspect-[16/10]" }, // L
-  { cols: "lg:col-span-4", aspect: "aspect-[3/4]"   }, // P
-];
-
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
   const project = await getProjectBySlug(slug, locale);
   if (!project) notFound();
 
   const isSr = locale === "sr";
-  const heroImage = project.galleryDesktop?.[0];
 
-  // Sve slike osim hero-a, landscape + portrait ismiksovane
-  const landscapeImages: ImageItem[] = (project.galleryDesktop?.slice(1) ?? []).map(
-    (img: any) => ({ id: img.id, url: img.url, orientation: "landscape" as const })
+  const heroDesktop = project.coverImageDesktop;
+  const heroMobile = project.coverImageMobile;
+
+  const landscapeImages: ImageItem[] = (project.galleryDesktop ?? []).map(
+    (img: any) => ({
+      id: img.id,
+      url: img.url,
+      orientation: "landscape",
+    })
   );
+
   const portraitImages: ImageItem[] = (project.galleryMobile ?? []).map(
-    (img: any) => ({ id: img.id, url: img.url, orientation: "portrait" as const })
+    (img: any) => ({
+      id: img.id,
+      url: img.url,
+      orientation: "portrait",
+    })
   );
 
-  // Interleave: L, L, P, L, P, P, L, L...
   const mixed: ImageItem[] = [];
-  let li = 0, pi = 0;
+  let li = 0;
+  let pi = 0;
+
   while (li < landscapeImages.length || pi < portraitImages.length) {
     if (li < landscapeImages.length) mixed.push(landscapeImages[li++]);
     if (li < landscapeImages.length) mixed.push(landscapeImages[li++]);
-    if (pi < portraitImages.length)  mixed.push(portraitImages[pi++]);
+    if (pi < portraitImages.length) mixed.push(portraitImages[pi++]);
   }
 
   return (
-    <main style={{ backgroundColor: "#F5F3EF", color: "#2C2C2A" }}>
+    <main className="bg-[#F5F3EF] text-[#2C2C2A]">
 
-      {/* ── 1. FULL-BLEED HERO ─────────────────────────────────────────── */}
-      {heroImage && (
-        <section className="relative w-full h-[90vh] md:h-screen overflow-hidden">
-          <Image
-            src={heroImage.url}
-            alt={project.title ?? ""}
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)",
-            }}
-          />
-          <div className="absolute bottom-10 left-8 md:bottom-16 md:left-16 z-10">
-            <div className="mb-5" style={{ width: 40, height: 1, backgroundColor: "#C4A053" }} />
-            <h1
-              className="text-white uppercase font-light tracking-[0.2em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight"
-              style={{ fontFamily: "var(--font-cormorant)" }}
-            >
-              {project.title}
-            </h1>
-            <p
-              className="mt-3 text-white/60 text-xs tracking-[0.45em] uppercase"
-              style={{ fontFamily: "var(--font-cormorant)" }}
-            >
-              {isSr ? "Projekat" : "Project"}
-            </p>
-          </div>
-          <div className="absolute bottom-10 right-8 md:bottom-16 md:right-16 flex flex-col items-center gap-2 z-10">
-            <span
-              className="text-white/50 text-[10px] tracking-[0.4em] uppercase"
-              style={{ fontFamily: "var(--font-cormorant)" }}
-            >
-              {isSr ? "Skroluj" : "Scroll"}
-            </span>
-            <div className="w-px bg-white/30 animate-pulse" style={{ height: 48 }} />
+      {/* HERO */}
+      {(heroDesktop || heroMobile) && (
+        <section className="relative w-full h-[85vh] md:h-screen overflow-hidden bg-stone-100">
+
+          {heroMobile?.url && (
+            <Image
+              src={heroMobile.url}
+              alt={project.title ?? ""}
+              fill
+              priority
+              className="object-cover md:hidden"
+              sizes="100vw"
+            />
+          )}
+
+          {heroDesktop?.url && (
+            <Image
+              src={heroDesktop.url}
+              alt={project.title ?? ""}
+              fill
+              priority
+              className="object-cover hidden md:block"
+              sizes="100vw"
+            />
+          )}
+
+          <div className="absolute inset-0 bg-black/20" />
+
+          <div className="absolute inset-0 flex flex-col justify-end px-6 md:px-12 lg:px-20 pb-12 md:pb-20 z-10">
+
+            <div className="max-w-[900px]">
+              <div className="mb-6 w-10 h-px bg-[#C4A053]" />
+
+              <h1
+                className="text-white uppercase font-light tracking-[0.2em]
+                text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1]"
+                style={{ fontFamily: "var(--font-cormorant)" }}
+              >
+                {project.title}
+              </h1>
+
+              <p
+                className="mt-4 text-white/60 text-[11px] tracking-[0.45em] uppercase"
+                style={{ fontFamily: "var(--font-cormorant)" }}
+              >
+                {isSr ? "Projekat" : "Project"}
+              </p>
+            </div>
+
           </div>
         </section>
       )}
 
-      {/* ── 2. TEKST ───────────────────────────────────────────────────── */}
+      {/* DESCRIPTION */}
       <div className="max-w-[780px] mx-auto px-6 md:px-12 py-24 md:py-32">
         <FadeSection delay={0}>
-          <div className="mb-10" style={{ width: 32, height: 1, backgroundColor: "#C4A053" }} />
           {Array.isArray(project.description) &&
             project.description.map((block: any, i: number) =>
               block.children?.map((child: any, j: number) =>
                 child.text ? (
                   <p
                     key={`${i}-${j}`}
-                    className="text-base md:text-lg leading-[2.1] mb-7 text-stone-500"
+                    className="text-lg leading-[2.1] mb-7 text-stone-500"
                     style={{ fontFamily: "var(--font-cormorant)" }}
                   >
                     {child.text}
@@ -130,37 +127,12 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
         </FadeSection>
       </div>
 
-      {/* ── 3. MIXED GRID ──────────────────────────────────────────────── */}
-      {mixed.length > 0 && (
-        <div className="px-4 md:px-8 pb-24 md:pb-32">
-          <div className="grid grid-cols-2 lg:grid-cols-12 gap-3 md:gap-4 items-end">
-            {mixed.map((img, i) => {
-              const slot = PATTERN[i % PATTERN.length];
-              return (
-                <FadeSection
-                  key={img.id}
-                  delay={i * 60}
-                  className={`col-span-1 ${slot.cols}`}
-                >
-                  <div className={`relative overflow-hidden ${slot.aspect}`}>
-                    <Image
-                      src={img.url}
-                      alt={project.title ?? ""}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 40vw, 33vw"
-                    />
-                  </div>
-                </FadeSection>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {/* GALLERY */}
+      {mixed.length > 0 && <GalleryGrid images={mixed} />}
 
-      {/* ── 4. PREV / NEXT CTA ─────────────────────────────────────────── */}
+     {/* ── 4. PREV / NEXT CTA ─────────────────────────────────────────── */}
       {(project.prevProject?.slug || project.nextProject?.slug) && (
-        <div className="flex flex-col sm:flex-row w-full gap-px bg-[#F5F3EF]">
+        <div className="flex flex-col lg:flex-row w-full gap-px bg-[#F5F3EF]">
           {[
             { data: project.prevProject, label: isSr ? "Prethodni projekat" : "Previous project", align: "left" },
             { data: project.nextProject, label: isSr ? "Sledeći projekat"   : "Next project",     align: "right" },

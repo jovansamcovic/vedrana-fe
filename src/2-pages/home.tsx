@@ -50,8 +50,8 @@ const HomePage = async ({ params }: Props) => {
     <main className="bg-[#F5F3EF]">
       <CrossfadeSlideshow slides={slides} />
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-32">
-        <div className="flex flex-col md:flex-row md:items-center gap-10 md:gap-20 lg:gap-28">
+      <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-32">
+        <div className="flex flex-col xl:flex-row md:items-center gap-10 md:gap-20 lg:gap-28">
 
           {/* Tekst */}
           <div className="flex-1 flex flex-col justify-center">
@@ -94,7 +94,7 @@ const HomePage = async ({ params }: Props) => {
           </div>
 
           {/* Slika */}
-          <div className="relative shrink-0 w-full md:w-[360px] lg:w-[440px]">
+          <div className="relative shrink-0 w-full md:w-[450px] lg:w-[500px]">
             <div className="absolute -top-4 -right-4 w-full h-full border border-[#C4A053] opacity-20 hidden md:block" />
             <div className="relative aspect-[3/4] overflow-hidden">
               <Image
