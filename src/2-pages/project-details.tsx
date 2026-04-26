@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getProjectBySlug } from "../6-shared/api/project-details";
 import { FadeSection } from "../4-features/face-section";
 import { GalleryGrid } from "../4-features/gallery-light-box";
+import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 type Props = {
   slug: string;
@@ -110,20 +111,7 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
       {/* DESCRIPTION */}
       <div className="max-w-[780px] mx-auto px-6 md:px-12 py-24 md:py-32">
         <FadeSection delay={0}>
-          {Array.isArray(project.description) &&
-            project.description.map((block: any, i: number) =>
-              block.children?.map((child: any, j: number) =>
-                child.text ? (
-                  <p
-                    key={`${i}-${j}`}
-                    className="text-lg leading-[2.1] mb-7 text-stone-500"
-                    style={{ fontFamily: "var(--font-cormorant)" }}
-                  >
-                    {child.text}
-                  </p>
-                ) : null
-              )
-            )}
+            <BlocksRenderer content={project.description} />
         </FadeSection>
       </div>
 
