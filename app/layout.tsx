@@ -13,8 +13,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vedrana Markovic Atelier",
-  description: "Made by Jovan Samčović",
+  title: "Vedrana Marković Atelier",
+  description: "Arhitektonski i interijerstki atelje osnovan u Kragujevcu. Projektovanje enterijera za stambene i poslovne objekte.",
+  icons: {
+    icon: "/favicon.webp",
+  },
+  keywords: ["arhitektura", "enterijer", "dizajn", "Kragujevac", "Vedrana Marković", "atelje", "interior design"],
+  authors: [{ name: "Vedrana Marković" }],
+  creator: "Vedrana Marković Atelier",
+  openGraph: {
+    title: "Vedrana Marković Atelier",
+    description: "Arhitektonski i interijerstki atelje osnovan u Kragujevcu.",
+    url: "https://vedrana-markovic-atelier.studio",
+    siteName: "Vedrana Marković Atelier",
+    locale: "sr_RS",
+    type: "website",
+  },
 };
 
 const cormorant = Cormorant_Garamond({
