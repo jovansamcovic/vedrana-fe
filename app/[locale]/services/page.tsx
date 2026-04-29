@@ -14,5 +14,5 @@ export default async function Page({
 }) {
   const { locale } = await params;
 
-  return <ServicesPage params={{ locale }} />;
+  return <ServicesPage params={params} />;
 }

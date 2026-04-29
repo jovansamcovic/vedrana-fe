@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { getProjectBySlug } from "../6-shared/api/project-details";
 import { FadeSection } from "../4-features/face-section";
 import { GalleryGrid } from "../4-features/gallery-light-box";
@@ -18,10 +19,12 @@ type ImageItem = {
 };
 
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
-  const project = await getProjectBySlug(slug, locale);
-  if (!project) notFound();
+  const [project, t] = await Promise.all([
+    getProjectBySlug(slug, locale),
+    getTranslations("ProjectDetailsPage"),
+  ]);
 
-  const isSr = locale === "sr";
+  if (!project) notFound();
 
   const heroDesktop = project.coverImageDesktop;
   const heroMobile = project.coverImageMobile;
@@ -52,13 +55,17 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
     if (pi < portraitImages.length) mixed.push(portraitImages[pi++]);
   }
 
+  const navItems = [
+    { data: project.prevProject, label: t("prevProject"), align: "left" },
+    { data: project.nextProject, label: t("nextProject"), align: "right" },
+  ];
+
   return (
     <main className="bg-[#F5F3EF] text-[#2C2C2A]">
 
       {/* HERO */}
       {(heroDesktop || heroMobile) && (
         <section className="relative w-full h-[85vh] md:h-screen overflow-hidden bg-stone-100">
-
           {heroMobile?.url && (
             <Image
               src={heroMobile.url}
@@ -69,7 +76,6 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
               sizes="100vw"
             />
           )}
-
           {heroDesktop?.url && (
             <Image
               src={heroDesktop.url}
@@ -84,26 +90,21 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
           <div className="absolute inset-0 bg-black/20" />
 
           <div className="absolute inset-0 flex flex-col justify-end px-6 md:px-12 lg:px-20 pb-12 md:pb-20 z-10">
-
             <div className="max-w-[900px]">
               <div className="mb-6 w-10 h-px bg-[#C4A053]" />
-
               <h1
-                className="text-white uppercase font-light tracking-[0.2em]
-                text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1]"
+                className="text-white uppercase font-light tracking-[0.2em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1]"
                 style={{ fontFamily: "var(--font-cormorant)" }}
               >
                 {project.title}
               </h1>
-
               <p
                 className="mt-4 text-white/60 text-[11px] tracking-[0.45em] uppercase"
                 style={{ fontFamily: "var(--font-cormorant)" }}
               >
-                {isSr ? "Projekat" : "Project"}
+                {t("project")}
               </p>
             </div>
-
           </div>
         </section>
       )}
@@ -111,20 +112,17 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
       {/* DESCRIPTION */}
       <div className="max-w-[780px] mx-auto px-6 md:px-12 py-24 md:py-32">
         <FadeSection delay={0}>
-            <BlocksRenderer content={project.description} />
+          <BlocksRenderer content={project.description} />
         </FadeSection>
       </div>
 
       {/* GALLERY */}
       {mixed.length > 0 && <GalleryGrid images={mixed} />}
 
-     {/* ── 4. PREV / NEXT CTA ─────────────────────────────────────────── */}
+      {/* PREV / NEXT CTA */}
       {(project.prevProject?.slug || project.nextProject?.slug) && (
         <div className="flex flex-col lg:flex-row w-full gap-px bg-[#F5F3EF]">
-          {[
-            { data: project.prevProject, label: isSr ? "Prethodni projekat" : "Previous project", align: "left" },
-            { data: project.nextProject, label: isSr ? "Sledeći projekat"   : "Next project",     align: "right" },
-          ].map(({ data, label, align }) =>
+          {navItems.map(({ data, label, align }) =>
             data?.slug ? (
               <Link
                 key={data.slug}
@@ -132,7 +130,6 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
                 className="group relative block overflow-hidden flex-1"
                 style={{ height: "40vh", minHeight: 240 }}
               >
-                {/* Slika — blago zamrznuta, hover je otključava */}
                 {data.coverUrl && (
                   <Image
                     src={data.coverUrl}
@@ -143,13 +140,11 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
                   />
                 )}
 
-                {/* Jak overlay koji se povlači na hover */}
                 <div
                   className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-60"
                   style={{ background: "rgba(245,243,239,0.55)" }}
                 />
 
-                {/* Tekst */}
                 <div
                   className={`absolute bottom-7 z-10 px-8 md:px-12 ${
                     align === "right" ? "right-0 text-right" : "left-0 text-left"

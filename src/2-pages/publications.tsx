@@ -11,7 +11,7 @@ export default async function PublicationsPage({
 
   return (
     <main>
-      <Publications publications={publications} locale={locale} />
+      <Publications publications={publications} />
     </main>
   );
 }

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export const CrossfadeSlideshow = ({
   slides = [],
@@ -16,6 +17,8 @@ export const CrossfadeSlideshow = ({
     slug: string;
   }[];
 }) => {
+  const t = useTranslations("CrossfadeSlideshow");
+
   const [current, setCurrent] = useState(0);
 
   const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
@@ -93,9 +96,10 @@ export const CrossfadeSlideshow = ({
                 className="text-[#C4A053] text-xs tracking-[0.3em] uppercase"
                 style={{ fontFamily: "var(--font-cormorant)" }}
               >
-                Project
+                {t("project")}
               </span>
             </div>
+
             <Link href={`projects/${slides[current]?.slug}`}>
               <h2
                 className="text-white text-xl md:text-4xl font-light tracking-[0.15em] uppercase hover:opacity-70 transition-opacity"
@@ -104,6 +108,7 @@ export const CrossfadeSlideshow = ({
                 {slides[current].title}
               </h2>
             </Link>
+
             {/* Dots */}
             <div className="flex items-center gap-2 mt-1">
               {slides.map((_, i) => (
@@ -111,7 +116,7 @@ export const CrossfadeSlideshow = ({
                   key={i}
                   onClick={() => setCurrent(i)}
                   className="transition-all duration-300"
-                  aria-label={`Idi na slajd ${i + 1}`}
+                  aria-label={`${t("goToSlide")} ${i + 1}`}
                 >
                   <div
                     className={`h-px transition-all duration-300 ${
@@ -128,7 +133,7 @@ export const CrossfadeSlideshow = ({
             <button
               onClick={prev}
               className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
-              aria-label="Prethodna"
+              aria-label={t("prevSlide")}
             >
               <ChevronLeft size={24} />
             </button>
@@ -136,7 +141,7 @@ export const CrossfadeSlideshow = ({
             <button
               onClick={next}
               className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
-              aria-label="Sledeća"
+              aria-label={t("nextSlide")}
             >
               <ChevronRight size={24} />
             </button>

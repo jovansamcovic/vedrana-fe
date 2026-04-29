@@ -17,6 +17,7 @@ type FaqSectionProps = {
   subtitle: string;
   contactText: string;
   contactCta: string;
+  answer: string;
   locale: string;
 };
 
@@ -27,6 +28,7 @@ export function FaqSection({
   subtitle,
   contactText,
   contactCta,
+  answer,
   locale,
 }: FaqSectionProps) {
   const [active, setActive] = useState(0);
@@ -36,10 +38,7 @@ export function FaqSection({
     setActive(i);
     if (window.innerWidth < 768) {
       setTimeout(() => {
-        answerRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        answerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
     }
   }
@@ -113,7 +112,7 @@ export function FaqSection({
             className="text-[10px] tracking-[0.35em] uppercase text-[#C4A053] block mb-5"
             style={cormorant}
           >
-            Odgovor
+            {answer}
           </span>
           <p
             className="font-light text-[#3a3530] mb-4 leading-snug"

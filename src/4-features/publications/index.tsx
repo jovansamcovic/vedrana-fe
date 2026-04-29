@@ -1,17 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Publication } from "@/src/6-shared/api/get-publications";
 
 const cormorant = { fontFamily: "var(--font-cormorant)" };
-
-const translations = {
-  en: {
-    readFeature: "Read article",
-  },
-  sr: {
-    readFeature: "Pročitaj tekst",
-  },
-};
 
 const PlaceholderCover = ({ magazine }: { magazine: string }) => (
   <div className="w-full h-full flex items-end p-3 bg-[#E8E4DC]">
@@ -26,13 +18,10 @@ const PlaceholderCover = ({ magazine }: { magazine: string }) => (
 
 export function Publications({
   publications,
-  locale,
 }: {
   publications: Publication[];
-  locale: string;
 }) {
-  const t =
-    translations[locale as keyof typeof translations] ?? translations.sr;
+  const t = useTranslations("Publications");
 
   const byYear = publications.reduce<Record<string, Publication[]>>(
     (acc, pub) => {
@@ -54,10 +43,7 @@ export function Publications({
             <div className="flex items-center gap-8 mb-14">
               <span
                 className="text-stone-200 font-light leading-none"
-                style={{
-                  ...cormorant,
-                  fontSize: "clamp(3rem, 8vw, 4rem)",
-                }}
+                style={{ ...cormorant, fontSize: "clamp(3rem, 8vw, 4rem)" }}
               >
                 {year}
               </span>
@@ -71,18 +57,11 @@ export function Publications({
 
                   {/* ROW */}
                   <div className="group grid grid-cols-[100px_1fr] lg:grid-cols-[220px_1fr_200px] gap-6 lg:gap-10 py-10 lg:py-14 transition hover:bg-[#C4A053]/[0.03]">
-                    
+
                     {/* COVER */}
                     <div>
-                      <div
-                        className="relative 
-                        w-[110px] aspect-[2/3] 
-                        lg:w-[200px] lg:aspect-[16/10] 
-                        p-2 bg-[#F5F3EF]"
-                      >
-                        {/* Inner wrapper */}
+                      <div className="relative w-[110px] aspect-[2/3] lg:w-[200px] lg:aspect-[16/10] p-2 bg-[#F5F3EF]">
                         <div className="relative w-full h-full overflow-hidden">
-                          
                           {(pub.coverImageMobile || pub.coverImageDesktop) ? (
                             <picture>
                               {pub.coverImageDesktop && (
@@ -91,7 +70,6 @@ export function Publications({
                                   srcSet={pub.coverImageDesktop.url}
                                 />
                               )}
-
                               <img
                                 src={
                                   pub.coverImageMobile?.url ||
@@ -99,23 +77,17 @@ export function Publications({
                                 }
                                 alt={pub.magazine}
                                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                                style={{
-                                  filter: "sepia(10%) contrast(0.95)",
-                                }}
+                                style={{ filter: "sepia(10%) contrast(0.95)" }}
                               />
                             </picture>
                           ) : (
                             <PlaceholderCover magazine={pub.magazine} />
                           )}
 
-                          {/* Zlatna linija */}
                           <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#C4A053] z-10" />
-
-                          {/* Hover overlay */}
                           <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         </div>
 
-                        {/* FRAME (isto kao ProjectsGrid) */}
                         <div className="absolute inset-0 border border-white/80 pointer-events-none m-1.5 shadow-[0_0_0_1px_rgba(0,0,0,0.06)]" />
                       </div>
                     </div>
@@ -141,10 +113,7 @@ export function Publications({
 
                       <p
                         className="text-stone-400 max-w-2xl leading-relaxed"
-                        style={{
-                          ...cormorant,
-                          fontSize: "0.9rem",
-                        }}
+                        style={{ ...cormorant, fontSize: "0.9rem" }}
                       >
                         {pub.excerpt}
                       </p>
@@ -163,7 +132,7 @@ export function Publications({
                         }}
                       >
                         <span className="w-5 h-px bg-current" />
-                        {t.readFeature}
+                        {t("readFeature")}
                       </a>
                     </div>
 
@@ -181,7 +150,7 @@ export function Publications({
                           textTransform: "uppercase",
                         }}
                       >
-                        {t.readFeature}
+                        {t("readFeature")}
                         <span className="transition-transform duration-300 group-hover:translate-x-2">
                           →
                         </span>

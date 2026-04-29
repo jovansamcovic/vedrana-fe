@@ -1,18 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const translations = {
-  en: {
-    sectionLabel: "Projects",
-  },
-  sr: {
-    sectionLabel: "Projekti",
-  },
-};
+import { getTranslations } from "next-intl/server";
 
 export const ProjectsGrid = async ({ projects, locale }: any) => {
-  const t =
-    translations[locale as keyof typeof translations] ?? translations.en;
+  const t = await getTranslations("ProjectsGrid");
 
   return (
     <section className="w-full bg-[#F5F3EF] px-6 md:px-12 lg:px-20 py-20">
@@ -24,7 +15,7 @@ export const ProjectsGrid = async ({ projects, locale }: any) => {
             className="text-[#C4A053] tracking-[0.5em] uppercase"
             style={{ fontFamily: "var(--font-cormorant)", fontSize: "0.7rem" }}
           >
-            {t.sectionLabel}
+            {t("sectionLabel")}
           </span>
           <div className="h-px flex-1 bg-stone-300" />
         </div>

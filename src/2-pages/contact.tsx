@@ -1,11 +1,11 @@
 import { ContactSection } from "../4-features/contact-section";
 
-export default async function ContactPage({ params }: { params: { locale: string } }) {
-  const { locale } = params;
+export default async function ContactPage() {
+
 
   return (
     <main>
-      <ContactSection locale={locale} />
+      <ContactSection />
     </main>
   );
 }

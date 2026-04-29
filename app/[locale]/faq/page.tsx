@@ -11,7 +11,5 @@ export default async function Page({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-
-  return <FaqPage params={{ locale }} />;
+  return <FaqPage params={params} />;
 }

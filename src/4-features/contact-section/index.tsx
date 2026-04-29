@@ -1,68 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-const translations = {
-  en: {
-    sectionLabel: "Contact",
-    heading: "Get in touch",
-    subheading:
-      "Whether you have a project in mind or simply want to learn more about our work — we'd love to hear from you.",
-    formTitle: "Send a message",
-    name: "Full name",
-    email: "Email address",
-    projectType: "Project type",
-    projectTypePlaceholder: "Residential, commercial...",
-    message: "Message",
-    messagePlaceholder: "Tell us about your project...",
-    send: "Send message",
-    sending: "Sending...",
-    successTitle: "Message sent.",
-    successText: "Thank you for reaching out. We'll be in touch shortly.",
-    errorText: "Something went wrong. Please try again or email us directly.",
-    infoTitle: "Info",
-    location: "Location",
-    locationValue: "Kragujevac, Serbia",
-    emailLabel: "Email",
-    phoneLabel: "Phone",
-    followLabel: "Follow us",
-    findUs: "Find us",
-    openInMaps: "Open in Maps →",
-    addressLine: "Janka Veselinovića 6, Kragujevac, Serbia",
-  },
-  sr: {
-    sectionLabel: "Kontakt",
-    heading: "Javite se",
-    subheading:
-      "Bez obzira da li imate projekat na umu ili jednostavno želite da saznate više — rado ćemo vas čuti.",
-    formTitle: "Pošaljite poruku",
-    name: "Ime i prezime",
-    email: "Email adresa",
-    projectType: "Vrsta projekta",
-    projectTypePlaceholder: "Stambeni, poslovni...",
-    message: "Poruka",
-    messagePlaceholder: "Opišite nam vaš projekat...",
-    send: "Pošaljite poruku",
-    sending: "Slanje...",
-    successTitle: "Poruka poslata.",
-    successText: "Hvala što ste nas kontaktirali. Javićemo vam se uskoro.",
-    errorText: "Nešto nije u redu. Pokušajte ponovo ili nas kontaktirajte direktno.",
-    infoTitle: "Informacije",
-    location: "Lokacija",
-    locationValue: "Kragujevac, Srbija",
-    emailLabel: "Email",
-    phoneLabel: "Telefon",
-    followLabel: "Pratite nas",
-    findUs: "Pronađite nas",
-    openInMaps: "Otvori u Maps →",
-    addressLine: "Janka Veselinovića 6, Kragujevac, Srbija",
-  },
-};
+import { useTranslations } from "next-intl";
 
 const cormorant = { fontFamily: "var(--font-cormorant)" };
 
-export const ContactSection = ({ locale }: { locale: string }) => {
-  const t = translations[locale as keyof typeof translations] ?? translations.en;
+export const ContactSection = () => {
+  const t = useTranslations("ContactPage");
 
   const [form, setForm] = useState({
     name: "",
@@ -107,7 +51,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
             className="text-[#C4A053] tracking-[0.5em] uppercase"
             style={{ ...cormorant, fontSize: "0.7rem" }}
           >
-            {t.sectionLabel}
+            {t("sectionLabel")}
           </span>
           <div className="h-px flex-1 bg-stone-300" />
         </div>
@@ -119,13 +63,13 @@ export const ContactSection = ({ locale }: { locale: string }) => {
             className="text-stone-700 font-light tracking-[0.2em] uppercase mb-6"
             style={{ ...cormorant, fontSize: "clamp(1.8rem, 3vw, 2.6rem)" }}
           >
-            {t.heading}
+            {t("heading")}
           </h1>
           <p
             className="text-stone-400 font-light leading-relaxed tracking-wide"
             style={{ ...cormorant, fontSize: "1rem" }}
           >
-            {t.subheading}
+            {t("subheading")}
           </p>
         </div>
 
@@ -138,7 +82,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
               className="text-[#C4A053] tracking-[0.4em] uppercase block mb-10"
               style={{ ...cormorant, fontSize: "0.65rem" }}
             >
-              / 01 — {t.formTitle}
+              / 01 — {t("formTitle")}
             </span>
 
             {status === "success" ? (
@@ -148,13 +92,13 @@ export const ContactSection = ({ locale }: { locale: string }) => {
                   className="text-stone-700 tracking-[0.15em] uppercase mb-3"
                   style={{ ...cormorant, fontSize: "1.2rem" }}
                 >
-                  {t.successTitle}
+                  {t("successTitle")}
                 </p>
                 <p
                   className="text-stone-400 font-light tracking-wide leading-relaxed"
                   style={{ ...cormorant, fontSize: "0.95rem" }}
                 >
-                  {t.successText}
+                  {t("successText")}
                 </p>
               </div>
             ) : (
@@ -164,7 +108,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
                     className="block text-stone-400 tracking-[0.35em] uppercase mb-3"
                     style={{ ...cormorant, fontSize: "0.65rem" }}
                   >
-                    {t.name}
+                    {t("name")}
                   </label>
                   <input
                     type="text"
@@ -181,7 +125,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
                     className="block text-stone-400 tracking-[0.35em] uppercase mb-3"
                     style={{ ...cormorant, fontSize: "0.65rem" }}
                   >
-                    {t.email}
+                    {t("email")}
                   </label>
                   <input
                     type="email"
@@ -198,14 +142,14 @@ export const ContactSection = ({ locale }: { locale: string }) => {
                     className="block text-stone-400 tracking-[0.35em] uppercase mb-3"
                     style={{ ...cormorant, fontSize: "0.65rem" }}
                   >
-                    {t.projectType}
+                    {t("projectType")}
                   </label>
                   <input
                     type="text"
                     name="projectType"
                     value={form.projectType}
                     onChange={handleChange}
-                    placeholder={t.projectTypePlaceholder}
+                    placeholder={t("projectTypePlaceholder")}
                     className="w-full bg-transparent border-b border-stone-300 focus:border-[#C4A053] outline-none pb-3 text-stone-600 font-light tracking-wide transition-colors duration-300 placeholder:text-stone-300"
                     style={{ ...cormorant, fontSize: "0.95rem" }}
                   />
@@ -216,26 +160,25 @@ export const ContactSection = ({ locale }: { locale: string }) => {
                     className="block text-stone-400 tracking-[0.35em] uppercase mb-3"
                     style={{ ...cormorant, fontSize: "0.65rem" }}
                   >
-                    {t.message}
+                    {t("message")}
                   </label>
                   <textarea
                     name="message"
                     value={form.message}
                     onChange={handleChange}
                     rows={5}
-                    placeholder={t.messagePlaceholder}
+                    placeholder={t("messagePlaceholder")}
                     className="w-full bg-transparent border-b border-stone-300 focus:border-[#C4A053] outline-none pb-3 text-stone-600 font-light tracking-wide transition-colors duration-300 resize-none placeholder:text-stone-300"
                     style={{ ...cormorant, fontSize: "0.95rem" }}
                   />
                 </div>
 
-                {/* Error poruka */}
                 {status === "error" && (
                   <p
                     className="text-red-400 font-light tracking-wide"
                     style={{ ...cormorant, fontSize: "0.88rem" }}
                   >
-                    {t.errorText}
+                    {t("errorText")}
                   </p>
                 )}
 
@@ -247,7 +190,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
                     style={{ ...cormorant, fontSize: "0.75rem" }}
                   >
                     <span className="h-px bg-current w-6 transition-all duration-500 group-hover:w-10" />
-                    {status === "sending" ? t.sending : t.send}
+                    {status === "sending" ? t("sending") : t("send")}
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 -ml-2">
                       →
                     </span>
@@ -266,19 +209,19 @@ export const ContactSection = ({ locale }: { locale: string }) => {
               className="text-[#C4A053] tracking-[0.4em] uppercase block mb-10"
               style={{ ...cormorant, fontSize: "0.65rem" }}
             >
-              / 02 — {t.infoTitle}
+              / 02 — {t("infoTitle")}
             </span>
 
             <div className="flex flex-col gap-10">
               <div>
                 <div className="h-px bg-[#C4A053] w-6 mb-3" />
-                <p className="text-stone-400 tracking-[0.35em] uppercase mb-2" style={{ ...cormorant, fontSize: "0.65rem" }}>{t.location}</p>
-                <p className="text-stone-600 font-light tracking-[0.1em]" style={{ ...cormorant, fontSize: "0.95rem" }}>{t.locationValue}</p>
+                <p className="text-stone-400 tracking-[0.35em] uppercase mb-2" style={{ ...cormorant, fontSize: "0.65rem" }}>{t("location")}</p>
+                <p className="text-stone-600 font-light tracking-[0.1em]" style={{ ...cormorant, fontSize: "0.95rem" }}>{t("locationValue")}</p>
               </div>
 
               <div>
                 <div className="h-px bg-[#C4A053] w-6 mb-3" />
-                <p className="text-stone-400 tracking-[0.35em] uppercase mb-2" style={{ ...cormorant, fontSize: "0.65rem" }}>{t.emailLabel}</p>
+                <p className="text-stone-400 tracking-[0.35em] uppercase mb-2" style={{ ...cormorant, fontSize: "0.65rem" }}>{t("emailLabel")}</p>
                 <a href="mailto:office@vedrana-atelier.com" className="text-stone-600 font-light tracking-[0.1em] hover:text-[#C4A053] transition-colors duration-300 no-underline" style={{ ...cormorant, fontSize: "0.95rem" }}>
                   office@vedrana-atelier.com
                 </a>
@@ -286,7 +229,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
 
               <div>
                 <div className="h-px bg-[#C4A053] w-6 mb-3" />
-                <p className="text-stone-400 tracking-[0.35em] uppercase mb-2" style={{ ...cormorant, fontSize: "0.65rem" }}>{t.phoneLabel}</p>
+                <p className="text-stone-400 tracking-[0.35em] uppercase mb-2" style={{ ...cormorant, fontSize: "0.65rem" }}>{t("phoneLabel")}</p>
                 <a href="tel:+381XXXXXXXXX" className="text-stone-600 font-light tracking-[0.1em] hover:text-[#C4A053] transition-colors duration-300 no-underline" style={{ ...cormorant, fontSize: "0.95rem" }}>
                   +381 69 111 111
                 </a>
@@ -294,15 +237,14 @@ export const ContactSection = ({ locale }: { locale: string }) => {
 
               <div>
                 <div className="h-px bg-[#C4A053] w-6 mb-3" />
-                <p className="text-stone-400 tracking-[0.35em] uppercase mb-4" style={{ ...cormorant, fontSize: "0.65rem" }}>{t.followLabel}</p>
+                <p className="text-stone-400 tracking-[0.35em] uppercase mb-4" style={{ ...cormorant, fontSize: "0.65rem" }}>{t("followLabel")}</p>
                 <div className="flex flex-col gap-3">
-                  
-                    <a  href="https://www.instagram.com/vedranamarkovic_atelier" target="_blank" rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-3 text-stone-500 hover:text-[#C4A053] tracking-[0.25em] uppercase transition-colors duration-300 no-underline"
-                      style={{ ...cormorant, fontSize: "0.85rem" }}>
-                      <span className="h-px bg-current w-4 transition-all duration-500 group-hover:w-7" />
-                      Instagram
-                    </a>
+                  <a href="https://www.instagram.com/vedranamarkovic_atelier" target="_blank" rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-3 text-stone-500 hover:text-[#C4A053] tracking-[0.25em] uppercase transition-colors duration-300 no-underline"
+                    style={{ ...cormorant, fontSize: "0.85rem" }}>
+                    <span className="h-px bg-current w-4 transition-all duration-500 group-hover:w-7" />
+                    Instagram
+                  </a>
                 </div>
               </div>
             </div>
@@ -314,7 +256,7 @@ export const ContactSection = ({ locale }: { locale: string }) => {
           <div className="flex items-center gap-6 mb-10">
             <div className="h-px flex-1 bg-stone-200" />
             <span className="text-[#C4A053] tracking-[0.4em] uppercase" style={{ ...cormorant, fontSize: "0.65rem" }}>
-              / 03 — {t.findUs}
+              / 03 — {t("findUs")}
             </span>
             <div className="h-px flex-1 bg-stone-200" />
           </div>
@@ -336,11 +278,11 @@ export const ContactSection = ({ locale }: { locale: string }) => {
           </div>
 
           <div className="flex items-center justify-between mt-6 px-1">
-            <p className="text-stone-400 font-light tracking-[0.12em]" style={{ ...cormorant, fontSize: "0.88rem" }}>{t.addressLine}</p>
+            <p className="text-stone-400 font-light tracking-[0.12em]" style={{ ...cormorant, fontSize: "0.88rem" }}>{t("addressLine")}</p>
             <a href="https://maps.google.com/?q=Janka+Veselinovića+6,+Kragujevac" target="_blank" rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 text-[#C4A053] tracking-[0.3em] uppercase transition-opacity duration-300 hover:opacity-60 no-underline"
               style={{ ...cormorant, fontSize: "0.7rem" }}>
-              {t.openInMaps}
+              {t("openInMaps")}
             </a>
           </div>
         </div>

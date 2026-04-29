@@ -1,25 +1,24 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const GIF_DURATION  = 1400;
-const WORD_DURATION = 280;
-const WORD_FADE     = 200;
+const WORD_DURATION = 380;
+const WORD_FADE     = 220;
 const LOGO_HOLD     = 800;
 const FADE_DURATION = 400;
 
 const DESKTOP_GIF = "/gifs/DeskGif.gif";
 const MOBILE_GIF  = "/gifs/MobileGif.gif";
 
-const WORDS_SR = ["Prostor.", "Karakter.", "Identitet.", "Vaše."];
-const WORDS_EN = ["Space.", "Character.", "Identity.", "Yours."];
-
 interface LoadingScreenProps {
   locale?: "sr" | "en";
 }
 
 export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
-  const atelier = locale === "en" ? "Atelier" : "Atelje";
-  const words   = locale === "en" ? WORDS_EN : WORDS_SR;
+  const t       = useTranslations("LoadingScreen");
+  const atelier = t("atelier");
+  const words   = t.raw("words") as string[];
 
   const [phase, setPhase]             = useState<"gif" | "words" | "logo">("gif");
   const [wordIndex, setWordIndex]     = useState(0);
@@ -30,18 +29,22 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
   const [out, setOut]                 = useState(false);
   const [done, setDone]               = useState(false);
   const [isMobile, setIsMobile]       = useState(false);
+  const [progress, setProgress]       = useState(0);
 
-  const imgRef    = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
+  const imgRef      = useRef<HTMLImageElement>(null);
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const timersRef   = useRef<NodeJS.Timeout[]>([]);
+  const progressRef = useRef<NodeJS.Timeout | null>(null);
 
-  const addTimer = (t: NodeJS.Timeout) => { timersRef.current.push(t); return t; };
+  const addTimer = (cb: NodeJS.Timeout) => { timersRef.current.push(cb); return cb; };
   const clearAllTimers = () => { timersRef.current.forEach(clearTimeout); timersRef.current = []; };
 
   useEffect(() => { setIsMobile(window.innerWidth < 768); }, []);
 
   const exit = () => {
     clearAllTimers();
+    if (progressRef.current) clearInterval(progressRef.current);
+    setProgress(100);
     setOut(true);
     setTimeout(() => setDone(true), FADE_DURATION);
   };
@@ -59,6 +62,29 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
     }
     setFrozen(true);
   };
+
+  useEffect(() => {
+    const totalDuration =
+      GIF_DURATION +
+      words.length * (WORD_FADE + WORD_DURATION) +
+      LOGO_HOLD;
+
+    const interval = 30;
+    const step = (interval / totalDuration) * 100;
+
+    progressRef.current = setInterval(() => {
+      setProgress(prev => {
+        const next = prev + step;
+        if (next >= 100) {
+          if (progressRef.current) clearInterval(progressRef.current);
+          return 100;
+        }
+        return next;
+      });
+    }, interval);
+
+    return () => { if (progressRef.current) clearInterval(progressRef.current); };
+  }, []);
 
   useEffect(() => {
     addTimer(setTimeout(() => {
@@ -83,15 +109,15 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
             return;
           }
           setWordIndex(i);
-          setWordVisible(true);
-          addTimer(setTimeout(cycleWords, WORD_FADE + WORD_DURATION));
+          addTimer(setTimeout(() => {
+            setWordVisible(true);
+            addTimer(setTimeout(cycleWords, WORD_DURATION));
+          }, 32));
         }, WORD_FADE));
       }
 
-      addTimer(setTimeout(() => {
-        setWordVisible(true);
-        addTimer(setTimeout(cycleWords, WORD_FADE + WORD_DURATION));
-      }, 200));
+      setWordVisible(true);
+      addTimer(setTimeout(cycleWords, WORD_DURATION));
 
     }, GIF_DURATION));
 
@@ -102,13 +128,7 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
-      style={{
-        background: "#0a0a0a",
-        opacity: out ? 0 : 1,
-        pointerEvents: out ? "none" : "auto",
-        transition: `opacity ${FADE_DURATION}ms ease`,
-      }}
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0a] transition-opacity duration-[400ms] ease-in-out ${out ? "opacity-0 pointer-events-none" : "opacity-100"}`}
     >
       {/* GIF */}
       <img
@@ -116,51 +136,25 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
         src={isMobile ? MOBILE_GIF : DESKTOP_GIF}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          opacity: gifVisible && !frozen ? 1 : 0,
-          transition: "opacity 500ms ease",
-          pointerEvents: "none",
-        }}
+        className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 ease-in-out ${gifVisible && !frozen ? "opacity-100" : "opacity-0"}`}
       />
 
       {/* Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0, pointerEvents: "none" }}
+        className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
       />
 
       {/* Overlay */}
       <div
-        className="absolute inset-0 z-[2]"
-        style={{
-          background: "rgba(0,0,0,0.30)",
-          opacity: gifVisible ? 1 : 0,
-          transition: "opacity 500ms ease",
-        }}
+        className={`absolute inset-0 z-[2] bg-black/30 transition-opacity duration-500 ease-in-out ${gifVisible ? "opacity-100" : "opacity-0"}`}
       />
 
       {/* X */}
       <button
         onClick={exit}
-        aria-label="Zatvori"
-        onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
-        onMouseLeave={e => (e.currentTarget.style.opacity = "0.55")}
-        style={{
-          position: "absolute",
-          top: "28px",
-          right: "32px",
-          zIndex: 20,
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          color: "#F5F3EF",
-          opacity: 0.55,
-          padding: "6px",
-          transition: "opacity 0.25s ease",
-          lineHeight: 1,
-        }}
+        aria-label={t("close")}
+        className="absolute top-7 right-8 z-20 bg-transparent border-none cursor-pointer text-[#F5F3EF] opacity-55 hover:opacity-100 transition-opacity duration-[250ms] p-1.5 leading-none"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -168,70 +162,31 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
         </svg>
       </button>
 
-      {/* Loading — dole levo */}
+      {/* Progress bar */}
       <div
-        style={{
-          position: "absolute",
-          bottom: "28px",
-          left: "32px",
-          zIndex: 20,
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          opacity: phase === "logo" ? 0 : 0.6,
-          transition: "opacity 500ms ease",
-        }}
+        className={`absolute bottom-7 left-8 right-8 z-20 transition-opacity duration-500 ease-in-out ${phase === "logo" ? "opacity-0" : "opacity-85"}`}
       >
-        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-          {[0, 1, 2].map(i => (
-            <div
-              key={i}
-              style={{
-                width: "4px",
-                height: "4px",
-                borderRadius: "50%",
-                background: "#F5F3EF",
-                animation: `ldpulse 1.1s ease-in-out ${i * 0.18}s infinite`,
-              }}
-            />
-          ))}
-        </div>
         <span
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: "11px",
-            fontWeight: 300,
-            letterSpacing: "0.28em",
-            color: "#F5F3EF",
-            textTransform: "uppercase",
-          }}
+          className="block font-light tracking-[0.28em] uppercase text-[#F5F3EF] text-[11px] mb-2 opacity-60"
+          style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
         >
-          Loading
+          {t("loading")}
         </span>
+        <div className="relative w-full h-px bg-[#F5F3EF]/15 overflow-hidden">
+          <div
+            className="absolute top-0 left-0 h-full bg-[#C4A053] transition-[width] duration-[30ms] linear"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
 
-      <style>{`
-        @keyframes ldpulse {
-          0%, 100% { opacity: 0.25; transform: scale(0.75); }
-          50%       { opacity: 1;   transform: scale(1);    }
-        }
-      `}</style>
-
-      {/* Reči */}
+      {/* Reči — samo fade */}
       {phase === "words" && (
         <span
-          style={{
-            position: "relative",
-            zIndex: 10,
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: "clamp(28px, 5vw, 52px)",
-            fontWeight: 300,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#F5F3EF",
-            opacity: wordVisible ? 1 : 0,
-            transition: `opacity ${WORD_FADE}ms ease`,
-          }}
+          className={`relative z-10 font-light tracking-[0.22em] uppercase text-[#F5F3EF] text-[clamp(28px,5vw,52px)] transition-opacity duration-200 ease-in-out ${
+            wordVisible ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
         >
           {words[wordIndex]}
         </span>
@@ -240,48 +195,20 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
       {/* Logo */}
       {phase === "logo" && (
         <div
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            opacity: logoVisible ? 1 : 0,
-            transform: logoVisible ? "translateY(0)" : "translateY(10px)",
-            transition: "opacity 700ms ease, transform 700ms ease",
-          }}
+          className={`absolute z-10 flex flex-col items-center transition-[opacity,transform] duration-700 ease-in-out ${logoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2.5"}`}
         >
           <span
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: "10px",
-              fontWeight: 300,
-              letterSpacing: "0.55em",
-              color: "#C4A053",
-              textTransform: "uppercase",
-              marginBottom: "8px",
-            }}
+            className="font-light tracking-[0.55em] uppercase text-[#C4A053] text-[10px] mb-2"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
             {atelier}
           </span>
           <div
-            style={{
-              height: "1px",
-              background: "#C4A053",
-              marginBottom: "8px",
-              width: logoVisible ? "48px" : "0px",
-              transition: "width 600ms ease 150ms",
-            }}
+            className={`h-px bg-[#C4A053] mb-2 transition-[width] duration-[600ms] ease-in-out delay-150 ${logoVisible ? "w-12" : "w-0"}`}
           />
           <span
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: "clamp(20px, 3vw, 28px)",
-              fontWeight: 300,
-              fontStyle: "italic",
-              letterSpacing: "0.08em",
-              color: "#F5F3EF",
-            }}
+            className="font-light italic tracking-[0.08em] text-[#F5F3EF] text-[clamp(20px,3vw,28px)]"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
             Vedrana Marković
           </span>

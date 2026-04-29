@@ -1,0 +1,112 @@
+{
+  "ContactPage": {
+    "sectionLabel": "Kontakt",
+    "heading": "Javite se",
+    "subheading": "Bez obzira da li imate projekat na umu ili jednostavno želite da saznate više — rado ćemo vas čuti.",
+    "formTitle": "Pošaljite poruku",
+    "name": "Ime i prezime",
+    "email": "Email adresa",
+    "projectType": "Vrsta projekta",
+    "projectTypePlaceholder": "Stambeni, poslovni...",
+    "message": "Poruka",
+    "messagePlaceholder": "Opišite nam vaš projekat...",
+    "send": "Pošaljite poruku",
+    "sending": "Slanje...",
+    "successTitle": "Poruka poslata.",
+    "successText": "Hvala što ste nas kontaktirali. Javićemo vam se uskoro.",
+    "errorText": "Nešto nije u redu. Pokušajte ponovo ili nas kontaktirajte direktno.",
+    "infoTitle": "Informacije",
+    "location": "Lokacija",
+    "locationValue": "Kragujevac, Srbija",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefon",
+    "followLabel": "Pratite nas",
+    "findUs": "Pronađite nas",
+    "openInMaps": "Otvori u Maps →",
+    "addressLine": "Janka Veselinovića 6, Kragujevac, Srbija"
+  },
+    "FaqPage": {
+    "eyebrow": "Česta pitanja",
+    "title": "Sve što želite da znate",
+    "subtitle": "Odgovori na pitanja koja se najčešće postavljaju pre nego što krenemo da radimo zajedno.",
+    "contactText": "Niste pronašli odgovor? Pišite nam direktno.",
+    "contactCta": "Kontaktirajte nas",
+    "answer": "Odgovor"
+  },
+  "ProjectDetailsPage": {
+    "project": "Projekat",
+    "prevProject": "Prethodni projekat",
+    "nextProject": "Sledeći projekat"
+  },
+   "ProjectsGrid": {
+    "sectionLabel": "Projekti"
+  },
+  "Publications": {
+    "readFeature": "Pročitaj tekst"
+  },
+  "ServicesPage": {
+    "eyebrow": "Atelier Vedrana Marković",
+    "pageTitle": "Naš proces rada",
+    "pageSubtitle": "Svaki projekat prolazi kroz četiri pažljivo osmišljene faze — od prvog razgovora do finalne realizacije.",
+    "preparation": "Priprema",
+    "design": "Dizajn",
+    "technical": "Tehnička dokumentacija",
+    "execution": "Realizacija",
+    "phase1Title": "Upoznavanje i snimak stanja",
+    "phase2Title": "Koncept i idejno rešenje",
+    "phase3Title": "Izvođački projekat",
+    "phase4Title": "Podrška u izvođenju",
+    "phase1Items": [
+      "Razgovor o prostoru, potrebama i željama klijenta",
+      "Uzimanje mera i izrada projekta postojećeg stanja",
+      "Definisanje projektnog zadatka i vremenskih rokova"
+    ],
+    "phase2Items": [
+      "Funkcionalna šema prostora sa dispozicijom nameštaja",
+      "Definisanje estetskog pravca i dizajn narativa",
+      "Moodboard-ovi kao osnov za vizuelnu razradu",
+      "Prostorni preseci i 3D renderi ključnih prostorija"
+    ],
+    "phase3Items": [
+      "Šeme instalacija — struja, voda, rasveta",
+      "Šema gipskartonskih radova i podova",
+      "Šema molerskih radova i odabir boja",
+      "Projekat kupatila sa odabirom keramike i sanitarija",
+      "Radionički crteži za nameštaj po meri",
+      "Odabir rasvete, tepiha, zavesa i krupne dekoracije"
+    ],
+    "phase4Items": [
+      "Autorski nadzor tokom izvođenja radova",
+      "Provera usklađenosti radova sa projektom",
+      "Konsultacije pri izboru materijala na licu mesta",
+      "Izrada izmena projekta prema potrebama gradilišta"
+    ],
+    "phase1Deliverable": "Projektni zadatak & snimak stanja",
+    "phase2Deliverable": "Moodboard, preseci & renderi",
+    "phase3Deliverable": "Kompletna tehnička dokumentacija",
+    "phase4Deliverable": "Autorski nadzor & izmene projekta"
+  },
+   "LoadingScreen": {
+    "loading": "Loading",
+    "close": "Zatvori",
+    "atelier": "Atelje",
+    "words": ["Prostor.", "Karakter.", "Identitet.", "Vaše."]
+  },
+    "CrossfadeSlideshow": {
+    "project": "Projekat",
+    "prevSlide": "Prethodna",
+    "nextSlide": "Sledeća",
+    "goToSlide": "Idi na slajd"
+  },
+   "Header": {
+    "toggleMenu": "Otvori meni",
+    "nav": {
+      "home": "Početna",
+      "projects": "Projekti",
+      "services": "Usluge",
+      "publications": "Publikacije",
+      "faq": "Česta pitanja",
+      "contact": "Kontakt"
+    }
+  }
+}

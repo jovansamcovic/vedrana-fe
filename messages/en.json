@@ -1,0 +1,112 @@
+{
+  "ContactPage": {
+    "sectionLabel": "Contact",
+    "heading": "Get in touch",
+    "subheading": "Whether you have a project in mind or simply want to learn more about our work — we'd love to hear from you.",
+    "formTitle": "Send a message",
+    "name": "Full name",
+    "email": "Email address",
+    "projectType": "Project type",
+    "projectTypePlaceholder": "Residential, commercial...",
+    "message": "Message",
+    "messagePlaceholder": "Tell us about your project...",
+    "send": "Send message",
+    "sending": "Sending...",
+    "successTitle": "Message sent.",
+    "successText": "Thank you for reaching out. We'll be in touch shortly.",
+    "errorText": "Something went wrong. Please try again or email us directly.",
+    "infoTitle": "Info",
+    "location": "Location",
+    "locationValue": "Kragujevac, Serbia",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "followLabel": "Follow us",
+    "findUs": "Find us",
+    "openInMaps": "Open in Maps →",
+    "addressLine": "Janka Veselinovića 6, Kragujevac, Serbia"
+  },
+   "FaqPage": {
+    "eyebrow": "FAQ",
+    "title": "Everything you need to know",
+    "subtitle": "Answers to the most common questions before we start working together.",
+    "contactText": "Didn't find your answer? Write to us directly.",
+    "contactCta": "Contact us",
+    "answer": "Answer"
+  },
+    "ProjectDetailsPage": {
+    "project": "Project",
+    "prevProject": "Previous project",
+    "nextProject": "Next project"
+  },
+   "ProjectsGrid": {
+    "sectionLabel": "Projects"
+  },
+  "Publications": {
+    "readFeature": "Read article"
+  },
+  "ServicesPage": {
+    "eyebrow": "Atelier Vedrana Marković",
+    "pageTitle": "Our process",
+    "pageSubtitle": "Each project moves through four carefully considered phases — from the first conversation to final execution.",
+    "preparation": "Preparation",
+    "design": "Design",
+    "technical": "Technical documentation",
+    "execution": "Execution",
+    "phase1Title": "Assessment & site survey",
+    "phase2Title": "Concept & design proposal",
+    "phase3Title": "Construction documents",
+    "phase4Title": "On-site support",
+    "phase1Items": [
+      "Initial consultation about the space, needs and client's vision",
+      "Site survey and documentation of existing conditions",
+      "Defining the project brief and timeline"
+    ],
+    "phase2Items": [
+      "Functional floor plan with furniture layout",
+      "Defining aesthetic direction and design narrative",
+      "Moodboards as the basis for visual development",
+      "Sections and 3D renders of key rooms"
+    ],
+    "phase3Items": [
+      "Installation plans — electrical, plumbing, lighting",
+      "Drywall and flooring plans",
+      "Paint scheme and colour selection",
+      "Bathroom project with tile and sanitary ware selection",
+      "Workshop drawings for custom-made furniture",
+      "Selection of lighting, rugs, curtains and statement decor"
+    ],
+    "phase4Items": [
+      "Author's supervision during construction",
+      "Verification of works against the project",
+      "On-site material and finish consultations",
+      "Project amendments as required on site"
+    ],
+    "phase1Deliverable": "Project brief & site survey",
+    "phase2Deliverable": "Moodboard, sections & renders",
+    "phase3Deliverable": "Complete technical documentation",
+    "phase4Deliverable": "Author's supervision & amendments"
+  },
+  "LoadingScreen": {
+    "loading": "Loading",
+    "close": "Close",
+    "atelier": "Atelier",
+    "words": ["Space.", "Character.", "Identity.", "Yours."]
+  },
+   "CrossfadeSlideshow": {
+    "project": "Project",
+    "prevSlide": "Previous",
+    "nextSlide": "Next",
+    "goToSlide": "Go to slide"
+  },
+    "Header": {
+    "toggleMenu": "Toggle menu",
+    "nav": {
+      "home": "Home",
+      "projects": "Projects",
+      "services": "Services",
+      "publications": "Publications",
+      "faq": "FAQ",
+      "contact": "Contact"
+    }
+  }
+}
