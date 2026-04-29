@@ -17,7 +17,9 @@ export const ContactSection = () => {
     message: "",
   });
   const [emailError, setEmailError] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -198,10 +200,10 @@ export const ContactSection = () => {
                       !form.email ||
                       !form.message
                     }
-                    className="group inline-flex items-center gap-4 border border-[#C4A053] px-8 py-4 text-stone-700 hover:text-[#C4A053] tracking-[0.35em] uppercase transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                    style={{ ...cormorant, fontSize: "0.75rem" }}
+                   className="inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#3a3530] border border-[#C4A053] px-6 py-3 flex-shrink-0"
+                    style={cormorant}
                   >
-                    <span className="h-px bg-current w-5 transition-all duration-500 group-hover:w-8" />
+                    <span className="w-4 h-px bg-[#C4A053] inline-block" />
                     {status === "sending" ? t("sending") : t("send")}
                   </button>
                 </div>
