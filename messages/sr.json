@@ -23,7 +23,8 @@
     "followLabel": "Pratite nas",
     "findUs": "Pronađite nas",
     "openInMaps": "Otvori u Maps →",
-    "addressLine": "Janka Veselinovića 6, Kragujevac, Srbija"
+    "addressLine": "Janka Veselinovića 6, Kragujevac, Srbija",
+    "errorEmail": "Unesite ispravnu email adresu."
   },
     "FaqPage": {
     "eyebrow": "Česta pitanja",
