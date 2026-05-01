@@ -9,7 +9,5 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-
-  return <HomePage params={{ locale }} />;
+  return <HomePage params={params} />;
 }

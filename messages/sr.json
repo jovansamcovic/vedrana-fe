@@ -26,7 +26,7 @@
     "addressLine": "Janka Veselinovića 6, Kragujevac, Srbija",
     "errorEmail": "Unesite ispravnu email adresu."
   },
-    "FaqPage": {
+  "FaqPage": {
     "eyebrow": "Česta pitanja",
     "title": "Sve što želite da znate",
     "subtitle": "Odgovori na pitanja koja se najčešće postavljaju pre nego što krenemo da radimo zajedno.",
@@ -39,7 +39,7 @@
     "prevProject": "Prethodni projekat",
     "nextProject": "Sledeći projekat"
   },
-   "ProjectsGrid": {
+  "ProjectsGrid": {
     "sectionLabel": "Projekti"
   },
   "Publications": {
@@ -47,16 +47,20 @@
   },
   "ServicesPage": {
     "eyebrow": "Atelier Vedrana Marković",
-    "pageTitle": "Naš proces rada",
-    "pageSubtitle": "Svaki projekat prolazi kroz četiri pažljivo osmišljene faze — od prvog razgovora do finalne realizacije.",
+    "pageTitle": "Kako prostor postaje vaš",
+    "pageIntro": "Pre nego što se nacrta ijedna linija, postoji razgovor. Pre nego što prostorija dobije oblik, postoji život koji treba razumeti.",
     "preparation": "Priprema",
-    "design": "Dizajn",
-    "technical": "Tehnička dokumentacija",
-    "execution": "Realizacija",
-    "phase1Title": "Upoznavanje i snimak stanja",
-    "phase2Title": "Koncept i idejno rešenje",
-    "phase3Title": "Izvođački projekat",
-    "phase4Title": "Podrška u izvođenju",
+    "design": "Vizija",
+    "technical": "Zanat",
+    "execution": "Prisustvo",
+    "phase1Title": "Razgovor",
+    "phase2Title": "Vizija",
+    "phase3Title": "Zanat",
+    "phase4Title": "Prisustvo",
+    "phase1Description": "Počinjemo slušanjem. Ne mera, nego vas. Kako provodite jutra. Šta za vas znači tišina. Šta ste oduvek želeli ali nikada niste znali kako da zatražite. Tek kada razumemo ko ovde živi — zaista razumemo — počinjemo da definišemo šta će biti stvoreno.",
+    "phase2Description": "Ovo je trenutak kada nevidljivo postaje vidljivo. Ugođaj, osećaj, pravac — prevedeni u slike, preseke, rendere. Po prvi put, vidite to. Ne prostoriju, nego svet izgrađen oko vašeg načina života.",
+    "phase3Description": "Posao koji niko ne vidi — i razlog zašto se sve oseća ispravno. Precizni planovi za svaku površinu, svaki prekidač, svaku senku. Kao podstava odela po meri — nevidljiva struktura koja lepotu čini mogućom.",
+    "phase4Description": "Ideja vredi onoliko koliko je njena realizacija. Tokom izvođenja, tu smo — ne kao nadzornici, nego kao čuvari vizije. Brinemo da ono što je zamišljeno preživi susret sa stvarnošću — i često, postane nešto još bolje.",
     "phase1Items": [
       "Razgovor o prostoru, potrebama i željama klijenta",
       "Uzimanje mera i izrada projekta postojećeg stanja",
@@ -85,21 +89,23 @@
     "phase1Deliverable": "Projektni zadatak & snimak stanja",
     "phase2Deliverable": "Moodboard, preseci & renderi",
     "phase3Deliverable": "Kompletna tehnička dokumentacija",
-    "phase4Deliverable": "Autorski nadzor & izmene projekta"
+    "phase4Deliverable": "Autorski nadzor & izmene projekta",
+    "closing": "Atelier Vedrana Marković prima ograničen broj projekata godišnje.",
+    "closingCta": "javite se"
   },
-   "LoadingScreen": {
+  "LoadingScreen": {
     "loading": "Loading",
     "close": "Zatvori",
     "atelier": "Atelje",
     "words": ["Prostor.", "Karakter.", "Identitet.", "Vaše."]
   },
-    "CrossfadeSlideshow": {
+  "CrossfadeSlideshow": {
     "project": "Projekat",
     "prevSlide": "Prethodna",
     "nextSlide": "Sledeća",
     "goToSlide": "Idi na slajd"
   },
-   "Header": {
+  "Header": {
     "toggleMenu": "Otvori meni",
     "nav": {
       "home": "Početna",
@@ -107,7 +113,13 @@
       "services": "Usluge",
       "publications": "Publikacije",
       "faq": "Česta pitanja",
-      "contact": "Kontakt"
+      "contact": "Kontakt",
+      "about": "O nama"
     }
+  },
+  "HomePage": {
+    "atelierTitle": "Atelje",
+    "atelierDescription": "Osnovan 2022. godine u Kragujevcu, Atelje Vedrana Marković spaja preciznost italijanskog dizajna i intimnost lokalne prakse. Školovana u Milanu i oblikovana međunarodnim iskustvom, Vedrana stvara stambene i poslovne enterijere koji deluju duboko lično — prostore u kojima se suprotne ideje usklađuju i svaki klijent dobija daleko više nego što je očekivao.",
+    "allProjects": "Svi projekti"
   }
 }

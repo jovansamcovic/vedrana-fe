@@ -26,7 +26,7 @@
     "addressLine": "Janka Veselinovića 6, Kragujevac, Serbia",
     "errorEmail": "Please enter a valid email address."
   },
-   "FaqPage": {
+  "FaqPage": {
     "eyebrow": "FAQ",
     "title": "Everything you need to know",
     "subtitle": "Answers to the most common questions before we start working together.",
@@ -34,12 +34,12 @@
     "contactCta": "Contact us",
     "answer": "Answer"
   },
-    "ProjectDetailsPage": {
+  "ProjectDetailsPage": {
     "project": "Project",
     "prevProject": "Previous project",
     "nextProject": "Next project"
   },
-   "ProjectsGrid": {
+  "ProjectsGrid": {
     "sectionLabel": "Projects"
   },
   "Publications": {
@@ -47,16 +47,20 @@
   },
   "ServicesPage": {
     "eyebrow": "Atelier Vedrana Marković",
-    "pageTitle": "Our process",
-    "pageSubtitle": "Each project moves through four carefully considered phases — from the first conversation to final execution.",
+    "pageTitle": "How a space becomes yours",
+    "pageIntro": "Before a single line is drawn, there is a conversation. Before a room takes shape, there is a life to understand.",
     "preparation": "Preparation",
-    "design": "Design",
-    "technical": "Technical documentation",
-    "execution": "Execution",
-    "phase1Title": "Assessment & site survey",
-    "phase2Title": "Concept & design proposal",
-    "phase3Title": "Construction documents",
-    "phase4Title": "On-site support",
+    "design": "Vision",
+    "technical": "Craft",
+    "execution": "Presence",
+    "phase1Title": "The conversation",
+    "phase2Title": "The vision",
+    "phase3Title": "The craft",
+    "phase4Title": "The presence",
+    "phase1Description": "We begin by listening. Not to dimensions, but to you. How you move through your mornings. What stillness feels like to you. What you have always wanted but never quite known how to ask for. Only when we understand who lives here — truly understand — do we begin to define what will be created.",
+    "phase2Description": "This is the moment the invisible becomes visible. A mood, a feeling, a direction — translated into images, sections, renders. For the first time, you see it. Not a room, but a world built around the way you live.",
+    "phase3Description": "The work nobody sees — and the reason everything feels right. Precise plans for every surface, every switch, every shadow. Like the lining of a bespoke suit, this is the invisible structure that makes beauty possible.",
+    "phase4Description": "An idea is only as good as its execution. Throughout the build, we are there — not as inspectors, but as guardians of the vision. Making sure that what was imagined survives contact with reality, and often, becomes something better.",
     "phase1Items": [
       "Initial consultation about the space, needs and client's vision",
       "Site survey and documentation of existing conditions",
@@ -85,7 +89,9 @@
     "phase1Deliverable": "Project brief & site survey",
     "phase2Deliverable": "Moodboard, sections & renders",
     "phase3Deliverable": "Complete technical documentation",
-    "phase4Deliverable": "Author's supervision & amendments"
+    "phase4Deliverable": "Author's supervision & amendments",
+    "closing": "Atelier Vedrana Marković accepts a limited number of projects each year.",
+    "closingCta": "reach out"
   },
   "LoadingScreen": {
     "loading": "Loading",
@@ -93,13 +99,13 @@
     "atelier": "Atelier",
     "words": ["Space.", "Character.", "Identity.", "Yours."]
   },
-   "CrossfadeSlideshow": {
+  "CrossfadeSlideshow": {
     "project": "Project",
     "prevSlide": "Previous",
     "nextSlide": "Next",
     "goToSlide": "Go to slide"
   },
-    "Header": {
+  "Header": {
     "toggleMenu": "Toggle menu",
     "nav": {
       "home": "Home",
@@ -107,7 +113,13 @@
       "services": "Services",
       "publications": "Publications",
       "faq": "FAQ",
-      "contact": "Contact"
+      "contact": "Contact",
+      "about": "About"
     }
+  },
+  "HomePage": {
+    "atelierTitle": "The Atelier",
+    "atelierDescription": "Founded in 2022 in Kragujevac, Vedrana Marković Atelier brings together the rigour of Italian design and the intimacy of a local practice. Trained in Milan and shaped by international experience, Vedrana creates residential and commercial interiors that feel deeply personal — spaces where opposing ideas are reconciled and every client receives far more than they expected.",
+    "allProjects": "All Projects"
   }
 }

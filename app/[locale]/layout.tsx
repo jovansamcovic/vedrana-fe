@@ -19,7 +19,6 @@ export default async function Layout({
       <LoadingScreen key={locale} locale={locale as "sr" | "en"} />
       <Header locale={locale}/>
       {children}
-      <Footer />
     </NextIntlClientProvider>
   );
 }

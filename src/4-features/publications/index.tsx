@@ -38,7 +38,7 @@ export function Publications({
     <main className="w-full min-h-screen bg-[#F5F3EF]">
       <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-20 py-20">
         {years.map((year, yi) => (
-          <div key={year} className={yi > 0 ? "mt-28" : ""}>
+          <div key={year} className={yi > 0 ? "mt-20" : ""}>
             {/* YEAR */}
             <div className="flex items-center gap-8 mb-14">
               <span
