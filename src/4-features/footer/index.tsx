@@ -35,21 +35,21 @@ export const Footer = () => {
         <div className="h-px w-16 bg-stone-300 my-4"></div>
 
         <p
-          className="text-[10px] tracking-[0.25em] uppercase text-stone-400 text-center mt-2"
+          className="text-[10px] tracking-[0.25em] uppercase text-stone-500 text-center mt-2"
           style={cormorant}
         >
           © {new Date().getFullYear()} Atelier Vedrana Marković.
         </p>
 
         <p
-          className="text-[8px] tracking-[0.25em] uppercase text-stone-400 text-center"
+          className="text-[8px] tracking-[0.25em] uppercase text-stone-500 text-center"
           style={cormorant}
         >
           All rights reserved.
         </p>
 
         <p
-          className="text-[8px] tracking-[0.2em] uppercase text-stone-400 text-center mt-3"
+          className="text-[8px] tracking-[0.2em] uppercase text-stone-500 text-center mt-3"
           style={cormorant}
         >
           made with ♥ by{" "}
