@@ -8,8 +8,7 @@ export default async function ServicesPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("ServicesPage");
-
-  const contactHref = locale === "sr" ? "/sr/contact" : "/contact";
+const contactHref = `/${locale}/contact`;
 
   const phases = [
     {

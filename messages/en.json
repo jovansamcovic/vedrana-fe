@@ -91,7 +91,7 @@
     "phase3Deliverable": "Complete technical documentation",
     "phase4Deliverable": "Author's supervision & amendments",
     "closing": "Atelier Vedrana Marković accepts a limited number of projects each year.",
-    "closingCta": "reach out"
+    "closingCta": "Reach out"
   },
   "LoadingScreen": {
     "loading": "Loading",
@@ -121,5 +121,8 @@
     "atelierTitle": "The Atelier",
     "atelierDescription": "Founded in 2022 in Kragujevac, Vedrana Marković Atelier brings together the rigour of Italian design and the intimacy of a local practice. Trained in Milan and shaped by international experience, Vedrana creates residential and commercial interiors that feel deeply personal — spaces where opposing ideas are reconciled and every client receives far more than they expected.",
     "allProjects": "All Projects"
-  }
+  },
+  "Common": {
+  "contactCta": "Reach out"
+}
 }

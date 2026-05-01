@@ -91,7 +91,7 @@
     "phase3Deliverable": "Kompletna tehnička dokumentacija",
     "phase4Deliverable": "Autorski nadzor & izmene projekta",
     "closing": "Atelier Vedrana Marković prima ograničen broj projekata godišnje.",
-    "closingCta": "javite se"
+    "closingCta": "Javite se"
   },
   "LoadingScreen": {
     "loading": "Loading",
@@ -121,5 +121,8 @@
     "atelierTitle": "Atelje",
     "atelierDescription": "Osnovan 2022. godine u Kragujevcu, Atelje Vedrana Marković spaja preciznost italijanskog dizajna i intimnost lokalne prakse. Školovana u Milanu i oblikovana međunarodnim iskustvom, Vedrana stvara stambene i poslovne enterijere koji deluju duboko lično — prostore u kojima se suprotne ideje usklađuju i svaki klijent dobija daleko više nego što je očekivao.",
     "allProjects": "Svi projekti"
-  }
+  },
+  "Common": {
+  "contactCta": "Javite se"
+}
 }

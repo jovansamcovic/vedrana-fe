@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAbouts } from "../6-shared/api/get-about";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
+import { getTranslations } from "next-intl/server";
 
 export default async function AboutPage({
   params,
@@ -12,8 +13,9 @@ export default async function AboutPage({
 
   const abouts = await getAbouts(locale);
 
-  const contactHref = locale === "sr" ? "/sr/contact" : "/contact";
-  const contactLabel = locale === "sr" ? "javite se" : "Reach out";
+  const t = await getTranslations("Common");
+  const contactHref = `/${locale}/contact`;
+  const contactLabel = t("contactCta");
 
   return (
     <main>
