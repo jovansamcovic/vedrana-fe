@@ -34,7 +34,6 @@ export function ServicesFlow({
 }: ServicesFlowProps) {
   return (
     <div className="bg-[#F5F3EF] min-h-screen">
-
       {/* ── HEADER ── */}
       <div className="text-center px-6 pt-24 pb-20 md:pt-32 md:pb-28">
         <span
@@ -75,10 +74,8 @@ export function ServicesFlow({
       <div className="max-w-[780px] mx-auto px-6 md:px-12">
         {phases.map((phase, index) => (
           <div key={phase.num}>
-
             {/* Phase block */}
             <div className="relative py-16 md:py-24">
-
               {/* Ghost number */}
               <span
                 className="absolute right-0 top-8 select-none pointer-events-none leading-none text-[#C4A053]"
@@ -123,31 +120,44 @@ export function ServicesFlow({
               </p>
 
               {/* Technical items — secondary, collapsed visually */}
-              <details className="group mb-8">
-                <summary
-                  className="cursor-pointer list-none flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#b0a090] hover:text-[#C4A053] transition-colors duration-200 w-fit"
-                  style={cormorant}
-                >
-                  <span className="w-4 h-px bg-current inline-block" />
-                  <span>{phase.deliverable}</span>
-                  <span className="transition-transform duration-200 group-open:rotate-180 opacity-50">↓</span>
-                </summary>
+             <details className="group mb-8">
+  <summary className="cursor-pointer list-none flex flex-col items-center gap-2 w-fit mx-auto mb-6">
+    <span
+      className="text-[10px] tracking-[0.3em] uppercase text-[#b0a090] group-hover:text-[#C4A053] transition-colors duration-300"
+      style={cormorant}
+    >
+      {phase.deliverable}
+    </span>
 
-                <ul className="mt-5 space-y-2 pl-7 border-l border-[#C4A053] border-opacity-20">
-                  {phase.items.map((item, i) => (
-                    <li
-                      key={i}
-                      className="text-stone-400 leading-[1.8]"
-                      style={{
-                        ...cormorant,
-                        fontSize: "clamp(0.9rem, 1.3vw, 1rem)",
-                      }}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </details>
+    <span
+      className="flex items-center gap-3 text-[#C4A053] opacity-40 group-hover:opacity-100 transition-opacity duration-300"
+    >
+      <span className="w-8 h-px bg-current" />
+      <span
+        className="text-[22px] font-light leading-none transition-transform duration-500 group-open:rotate-45 animate-bounce"
+        style={{ ...cormorant, animationDuration: "2s" }}
+      >
+        +
+      </span>
+      <span className="w-8 h-px bg-current" />
+    </span>
+  </summary>
+
+  <ul className="mt-2 space-y-2 pl-7 border-l border-[#C4A053] border-opacity-20">
+    {phase.items.map((item, i) => (
+      <li
+        key={i}
+        className="text-stone-400 leading-[1.8]"
+        style={{
+          ...cormorant,
+          fontSize: "clamp(0.9rem, 1.3vw, 1rem)",
+        }}
+      >
+        {item}
+      </li>
+    ))}
+  </ul>
+</details>
             </div>
 
             {/* Divider between phases */}

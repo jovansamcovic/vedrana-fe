@@ -19,7 +19,7 @@ export default async function AboutPage({
 
   return (
     <main>
-      <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-32">
+      <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-32">
         <div className="flex flex-col xl:flex-row md:items-center gap-10 md:gap-20 lg:gap-28">
           {/* Tekst */}
           <div className="flex-1 flex flex-col justify-center">
