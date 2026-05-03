@@ -35,7 +35,6 @@ export const Header = ({ locale }: { locale: string }) => {
     };
   }, [menuOpen]);
 
-  // Pulse nakon što se loader završi, samo na home, samo na mobile
   useEffect(() => {
     if (!isHome) return;
 
@@ -48,7 +47,7 @@ export const Header = ({ locale }: { locale: string }) => {
     };
   }, [isHome]);
 
-  // Zaustavi pulsiranje čim korisnik otvori meni
+
   const handleMenuToggle = () => {
     setMenuOpen((prev) => !prev);
     setIsPulsing(false);
@@ -66,7 +65,7 @@ export const Header = ({ locale }: { locale: string }) => {
 
   const headerBg = () => {
     if (scrolled && !menuOpen) return "bg-[#eeece8] shadow-sm";
-    if (isHome) return "bg-gradient-to-b from-black/30 to-transparent";
+    // if (isHome) return "bg-gradient-to-b from-black/30 to-transparent";
     return "bg-transparent";
   };
 

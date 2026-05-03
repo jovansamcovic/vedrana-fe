@@ -8,7 +8,6 @@ export default function ProjectDetailsLayout({
   return (
     <>
       {children}
-      <Footer />
     </>
   );
 }
