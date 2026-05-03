@@ -64,7 +64,7 @@ export const Header = ({ locale }: { locale: string }) => {
   ];
 
   const headerBg = () => {
-    if (scrolled && !menuOpen) return "bg-[#eeece8] shadow-sm";
+    if (scrolled && !menuOpen && !isHome) return "bg-[#eeece8] shadow-sm";
     // if (isHome) return "bg-gradient-to-b from-black/30 to-transparent";
     return "bg-transparent";
   };
