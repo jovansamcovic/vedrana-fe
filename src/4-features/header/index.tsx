@@ -15,7 +15,8 @@ export const Header = ({ locale }: { locale: string }) => {
   const pathname = usePathname();
 
   const isHome = new RegExp(`^/${locale}/?$`).test(pathname);
-  const isLight = isHome && !menuOpen;
+  const isProjectDetails = new RegExp(`^/${locale}/projects/[^/]+/?$`).test(pathname);
+  const isLight = (isHome  || (isProjectDetails && !scrolled)) && !menuOpen;
 
   const isActive = (link: string) => {
     if (link === "") return new RegExp(`^/${locale}/?$`).test(pathname);
@@ -46,7 +47,6 @@ export const Header = ({ locale }: { locale: string }) => {
       clearTimeout(stop);
     };
   }, [isHome]);
-
 
   const handleMenuToggle = () => {
     setMenuOpen((prev) => !prev);
