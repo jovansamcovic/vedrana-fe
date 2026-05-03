@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { getProjectBySlug } from "../6-shared/api/project-details";
 import { FadeSection } from "../4-features/face-section";
 import { GalleryGrid } from "../4-features/gallery-light-box";
-import { BlocksRenderer } from "@strapi/blocks-react-renderer";
+import { ProjectDescription } from "../4-features/project-description";
 
 type Props = {
   slug: string;
@@ -16,6 +16,26 @@ type ImageItem = {
   id: number;
   url: string;
   orientation: "landscape" | "portrait";
+};
+
+const buildMixed = (
+  landscape: ImageItem[],
+  portrait: ImageItem[]
+): ImageItem[] => {
+  const result: ImageItem[] = [];
+  let li = 0;
+  let pi = 0;
+
+  while (li < landscape.length && pi < portrait.length) {
+    result.push(landscape[li++]);
+    if (li < landscape.length) result.push(landscape[li++]);
+    result.push(portrait[pi++]);
+  }
+
+  while (li < landscape.length) result.push(landscape[li++]);
+  while (pi < portrait.length) result.push(portrait[pi++]);
+
+  return result;
 };
 
 const ProjectDetailsPage = async ({ slug, locale }: Props) => {
@@ -33,7 +53,7 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
     (img: any) => ({
       id: img.id,
       url: img.url,
-      orientation: "landscape",
+      orientation: "landscape" as const,
     })
   );
 
@@ -41,19 +61,11 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
     (img: any) => ({
       id: img.id,
       url: img.url,
-      orientation: "portrait",
+      orientation: "portrait" as const,
     })
   );
 
-  const mixed: ImageItem[] = [];
-  let li = 0;
-  let pi = 0;
-
-  while (li < landscapeImages.length || pi < portraitImages.length) {
-    if (li < landscapeImages.length) mixed.push(landscapeImages[li++]);
-    if (li < landscapeImages.length) mixed.push(landscapeImages[li++]);
-    if (pi < portraitImages.length) mixed.push(portraitImages[pi++]);
-  }
+  const mixed = buildMixed(landscapeImages, portraitImages);
 
   const navItems = [
     { data: project.prevProject, label: t("prevProject"), align: "left" },
@@ -112,7 +124,7 @@ const ProjectDetailsPage = async ({ slug, locale }: Props) => {
       {/* DESCRIPTION */}
       <div className="max-w-[780px] mx-auto px-6 md:px-12 py-24 md:py-32">
         <FadeSection delay={0}>
-          <BlocksRenderer content={project.description} />
+          <ProjectDescription content={project.description} />
         </FadeSection>
       </div>
 

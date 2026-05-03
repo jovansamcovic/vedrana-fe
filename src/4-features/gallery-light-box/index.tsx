@@ -8,23 +8,23 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 type ImageItem = {
   id: number;
   url: string;
+  orientation: "landscape" | "portrait";
 };
 
 type SlotConfig = {
   cols: string;
-  aspect: string;
 };
 
 const PATTERN: SlotConfig[] = [
-  { cols: "lg:col-span-5", aspect: "aspect-[16/10]" },
-  { cols: "lg:col-span-4", aspect: "aspect-[16/10]" },
-  { cols: "lg:col-span-3", aspect: "aspect-[3/4]" },
-  { cols: "lg:col-span-3", aspect: "aspect-[3/4]" },
-  { cols: "lg:col-span-5", aspect: "aspect-[16/10]" },
-  { cols: "lg:col-span-4", aspect: "aspect-[3/4]" },
-  { cols: "lg:col-span-4", aspect: "aspect-[16/10]" },
-  { cols: "lg:col-span-4", aspect: "aspect-[16/10]" },
-  { cols: "lg:col-span-4", aspect: "aspect-[3/4]" },
+  { cols: "lg:col-span-5" },
+  { cols: "lg:col-span-4" },
+  { cols: "lg:col-span-3" },
+  { cols: "lg:col-span-3" },
+  { cols: "lg:col-span-5" },
+  { cols: "lg:col-span-4" },
+  { cols: "lg:col-span-4" },
+  { cols: "lg:col-span-4" },
+  { cols: "lg:col-span-4" },
 ];
 
 export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
@@ -42,11 +42,9 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
     );
   };
 
-  // keyboard navigation
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (index === null) return;
-
       if (e.key === "Escape") setIndex(null);
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
@@ -56,7 +54,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
     return () => window.removeEventListener("keydown", handler);
   }, [index]);
 
-  // lock scroll
   useEffect(() => {
     if (index !== null) {
       document.body.style.overflow = "hidden";
@@ -77,7 +74,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
 
   const onTouchEnd = (e: React.TouchEvent) => {
     const diff = startX - e.changedTouches[0].clientX;
-
     if (diff > 50) next();
     if (diff < -50) prev();
   };
@@ -89,6 +85,10 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
         <div className="grid grid-cols-2 lg:grid-cols-12 gap-3 md:gap-4 items-end">
           {images.map((img, i) => {
             const slot = PATTERN[i % PATTERN.length];
+            const aspect =
+              img.orientation === "portrait"
+                ? "aspect-[3/4]"
+                : "aspect-[16/10]";
 
             return (
               <FadeSection
@@ -97,7 +97,7 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
                 className={`col-span-1 ${slot.cols}`}
               >
                 <div
-                  className={`relative overflow-hidden ${slot.aspect} cursor-pointer`}
+                  className={`relative overflow-hidden ${aspect} cursor-pointer`}
                   onClick={() => setIndex(i)}
                 >
                   <Image
@@ -122,7 +122,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
-          {/* LEFT ARROW (desktop) */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -133,7 +132,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
             <ChevronLeft size={48} />
           </button>
 
-          {/* IMAGE */}
           <div className="relative w-full h-full p-[8px]">
             <div className="relative w-full h-full">
               <Image
@@ -147,7 +145,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
             </div>
           </div>
 
-          {/* RIGHT ARROW (desktop) */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -158,7 +155,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
             <ChevronRight size={48} />
           </button>
 
-          {/* CLOSE */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -169,7 +165,6 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
             ✕
           </button>
 
-          {/* DOTS */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
             {images.map((_, i) => (
               <button
@@ -179,9 +174,7 @@ export const GalleryGrid = ({ images }: { images: ImageItem[] }) => {
                   setIndex(i);
                 }}
                 className={`w-1.5 h-1.5 rounded-full transition-all ${
-                  i === index
-                    ? "bg-white scale-150"
-                    : "bg-white/40"
+                  i === index ? "bg-white scale-150" : "bg-white/40"
                 }`}
               />
             ))}
