@@ -34,6 +34,28 @@ export function ServicesFlow({
 }: ServicesFlowProps) {
   return (
     <div className="bg-[#F5F3EF] min-h-screen">
+
+      {/* ── GLOBAL ACCORDION ANIMATIONS ── */}
+      <style>{`
+        @keyframes arrowNudge {
+          0%,  60%, 100% { transform: translateY(0);   opacity: 0.5; }
+          30%             { transform: translateY(7px); opacity: 1;   }
+          45%             { transform: translateY(3px); opacity: 0.7; }
+        }
+
+        /* When open — freeze arrow rotated */
+        details[open] .accordion-arrow {
+          transform: rotate(180deg) !important;
+          animation: none !important;
+          opacity: 1 !important;
+        }
+        /* On hover — pause nudge, go full opacity */
+        details:not([open]) summary:hover .accordion-arrow {
+          animation-play-state: paused;
+          opacity: 1;
+        }
+      `}</style>
+
       {/* ── HEADER ── */}
       <div className="text-center px-6 pt-24 pb-20 md:pt-32 md:pb-28">
         <span
@@ -108,7 +130,7 @@ export function ServicesFlow({
                 {phase.title}
               </h2>
 
-              {/* Description — the story */}
+              {/* Description */}
               <p
                 className="italic text-[#8a7e72] leading-[2] mb-10 max-w-[560px]"
                 style={{
@@ -119,45 +141,63 @@ export function ServicesFlow({
                 {phase.description}
               </p>
 
-              {/* Technical items — secondary, collapsed visually */}
-             <details className="group mb-8">
-  <summary className="cursor-pointer list-none flex flex-col items-center gap-2 w-fit mx-auto mb-6">
-    <span
-      className="text-[10px] tracking-[0.3em] uppercase text-[#b0a090] group-hover:text-[#C4A053] transition-colors duration-300"
-      style={cormorant}
-    >
-      {phase.deliverable}
-    </span>
+              {/* ── ACCORDION ── */}
+              <details className="group mb-8">
+                <summary className="cursor-pointer list-none flex flex-col items-center gap-0 w-fit mx-auto mb-6">
 
-    <span
-      className="flex items-center gap-3 text-[#C4A053] opacity-40 group-hover:opacity-100 transition-opacity duration-300"
-    >
-      <span className="w-8 h-px bg-current" />
-      <span
-        className="text-[22px] font-light leading-none transition-transform duration-500 group-open:rotate-45 animate-bounce"
-        style={{ ...cormorant, animationDuration: "2s" }}
-      >
-        +
-      </span>
-      <span className="w-8 h-px bg-current" />
-    </span>
-  </summary>
+                  {/* Label */}
+                  <span
+                    className="text-[10px] tracking-[0.3em] uppercase text-[#b0a090] group-hover:text-[#C4A053] transition-colors duration-300 mb-3"
+                    style={cormorant}
+                  >
+                    {phase.deliverable}
+                  </span>
 
-  <ul className="mt-2 space-y-2 pl-7 border-l border-[#C4A053] border-opacity-20">
-    {phase.items.map((item, i) => (
-      <li
-        key={i}
-        className="text-stone-400 leading-[1.8]"
-        style={{
-          ...cormorant,
-          fontSize: "clamp(0.9rem, 1.3vw, 1rem)",
-        }}
-      >
-        {item}
-      </li>
-    ))}
-  </ul>
-</details>
+                  {/* Arrow row */}
+                  <span className="flex items-center gap-3 text-[#C4A053] group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="w-8 h-px bg-current opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="accordion-arrow"
+                      style={{
+                        opacity: 0.5,
+                        transition: "transform 0.5s ease, opacity 0.3s ease",
+                        animation: "arrowNudge 2.6s ease-in-out 1.2s infinite",
+                      }}
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+
+                    <span className="w-8 h-px bg-current opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
+                  </span>
+
+                </summary>
+
+                {/* Items list */}
+                <ul className="mt-2 space-y-2 pl-7 border-l border-[#C4A053] border-opacity-20">
+                  {phase.items.map((item, i) => (
+                    <li
+                      key={i}
+                      className="text-stone-400 leading-[1.8]"
+                      style={{
+                        ...cormorant,
+                        fontSize: "clamp(0.9rem, 1.3vw, 1rem)",
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </div>
 
             {/* Divider between phases */}

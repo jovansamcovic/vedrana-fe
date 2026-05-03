@@ -21,6 +21,7 @@ export default async function AboutPage({
     <main>
       <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-32">
         <div className="flex flex-col xl:flex-row md:items-center gap-10 md:gap-20 lg:gap-28">
+
           {/* Tekst */}
           <div className="flex-1 flex flex-col justify-center">
             <div className="h-px bg-[#C4A053] w-16 mb-10" />
@@ -45,10 +46,28 @@ export default async function AboutPage({
               className="text-base md:text-lg leading-[2] text-stone-500 max-w-lg"
               style={{ fontFamily: "var(--font-cormorant)" }}
             >
-              {abouts[0]?.description ? (
+              {abouts[0]?.description && (
                 <BlocksRenderer content={abouts[0].description} />
-              ) : null}
+              )}
             </div>
+
+            {/* CTA */}
+            <Link
+              href={contactHref}
+              className="group inline-flex items-center gap-3 mt-10 text-stone-400 hover:text-[#C4A053] transition-colors duration-500 w-fit"
+            >
+              <span
+                className="italic"
+                style={{
+                  fontFamily: "var(--font-cormorant)",
+                  fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {contactLabel}
+              </span>
+              <span className="h-px w-5 bg-current transition-all duration-500 group-hover:w-9" />
+            </Link>
 
             <div className="mt-10 flex items-center gap-4">
               <div className="w-12 h-px bg-[#C4A053] opacity-60" />
@@ -59,26 +78,6 @@ export default async function AboutPage({
                 Vedrana Marković
               </span>
             </div>
-
-            <Link
-              href={contactHref}
-              className="group inline-flex items-center gap-3 mt-12 text-stone-400 hover:text-[#C4A053] transition-colors duration-300"
-            >
-              <span
-                className="relative italic"
-                style={{
-                  fontFamily: "var(--font-cormorant)",
-                  fontSize: "clamp(1.1rem, 1.5vw, 1.3rem)",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {contactLabel}
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-current transition-all duration-500 group-hover:w-full" />
-              </span>
-              <span className="text-current opacity-60 transition-all duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
           </div>
 
           {/* Slika */}
@@ -94,6 +93,7 @@ export default async function AboutPage({
               <div className="absolute inset-0 bg-[#F5F3EF] opacity-5" />
             </div>
           </div>
+
         </div>
       </div>
     </main>
