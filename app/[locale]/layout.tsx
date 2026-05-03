@@ -14,13 +14,11 @@ export default async function Layout({
   const { locale } = await params;
   const messages = await getMessages();
 
- return (
-  <NextIntlClientProvider messages={messages}>
-    <div className="h-dvh overflow-hidden">
+  return (
+    <NextIntlClientProvider messages={messages}>
       <LoadingScreen key={locale} locale={locale as "sr" | "en"} />
       <Header locale={locale}/>
       {children}
-    </div>
-  </NextIntlClientProvider>
-);
+    </NextIntlClientProvider>
+  );
 }
