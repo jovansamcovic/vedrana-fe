@@ -23,7 +23,7 @@ const HomePage = async ({ params }: Props) => {
     }));
 
   return (
-    <main className="bg-[#F5F3EF]">
+    <main className="bg-[#F5F3EF] h-dvh overflow-hidden">
       <CrossfadeSlideshow slides={slides} />
     </main>
   );
