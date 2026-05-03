@@ -15,7 +15,7 @@ export const Header = ({ locale }: { locale: string }) => {
   const pathname = usePathname();
 
   const isHome = new RegExp(`^/${locale}/?$`).test(pathname);
-  const isLight = isHome && !scrolled && !menuOpen;
+  const isLight = isHome && !menuOpen;
 
   const isActive = (link: string) => {
     if (link === "") return new RegExp(`^/${locale}/?$`).test(pathname);
