@@ -92,20 +92,19 @@ export const CrossfadeSlideshow = ({
       ))}
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
       {/* HERO */}
       <div
-        className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-[20vh] text-center px-6 md:px-12 gap-6"
+        className="absolute inset-0 z-10 flex flex-col items-center justify-start pt-[20vh] text-center px-6 md:px-12 gap-6 pointer-events-none"
         style={{
           opacity: heroVisible ? 1 : 0,
           transform: heroVisible ? "translateX(0)" : "translateX(-60px)",
           transition: "opacity 0.7s ease, transform 0.7s ease",
-          pointerEvents: heroVisible ? "auto" : "none",
         }}
       >
         {/* Hero box */}
-        <div className="w-[calc(100vw-2rem)] max-w-2xl flex flex-col items-center gap-5 px-3 py-5 border border-[#a48445] bg-black/30">
+        <div className="w-[calc(100vw-2rem)] max-w-2xl flex flex-col items-center gap-5 px-3 py-5 border border-[#a48445] bg-black/30 pointer-events-auto">
           <h1
             className="text-white text-xl sm:text-2xl md:text-5xl font-light tracking-[0.04em] leading-snug"
             style={{ fontFamily: "var(--font-cormorant)" }}
@@ -113,7 +112,7 @@ export const CrossfadeSlideshow = ({
             {tHome("heroTitle")}
           </h1>
 
-          <p className="text-white/75 text-xs sm:text-sm md:text-base max-w-md leading-relaxed">
+          <p className="text-white/75 text-xs sm:text-sm md:text-base max-w-md leading-relaxed" style={{ fontFamily: "var(--font-cormorant)" }}>
             {tHome("heroSubtitle")}
           </p>
 
@@ -139,6 +138,7 @@ export const CrossfadeSlideshow = ({
 
       {/* BOTTOM */}
       <div className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-12 pb-8 md:pb-10">
+
         {/* MOBILE — strelica levo | naslov centar | strelica desno */}
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 md:hidden">
           <button
@@ -149,10 +149,7 @@ export const CrossfadeSlideshow = ({
             <ChevronLeft size={20} />
           </button>
 
-          <Link
-            href={`/projects/${slides[current]?.slug}`}
-            className="text-center"
-          >
+          <Link href={`/projects/${slides[current]?.slug}`} className="text-center">
             <h2
               className="text-white/80 text-sm font-light tracking-[0.08em] uppercase hover:text-white transition-colors"
               style={{ fontFamily: "var(--font-cormorant)" }}
@@ -198,6 +195,7 @@ export const CrossfadeSlideshow = ({
             </button>
           </div>
         </div>
+
       </div>
     </div>
   );

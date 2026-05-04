@@ -15,7 +15,7 @@ export const ProjectDescription = ({ content }: Props) => (
       content={content}
       blocks={{
         paragraph: ({ children }) => (
-          <p className="text-[#2C2C2A]/75 text-xl md:text-2xl leading-[1.85] tracking-wide mb-6 last:mb-0">
+          <p className="text-[#2C2C2A]/75 text-xl md:text-2xl leading-[1.85] tracking-wide last:mb-0">
             {children}
           </p>
         ),

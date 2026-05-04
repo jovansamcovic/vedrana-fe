@@ -150,7 +150,7 @@ export const Header = ({ locale }: { locale: string }) => {
                   top: "50%",
                   transform: menuOpen
                     ? "translateY(-50%) rotate(45deg)"
-                    : "translateY(calc(-50% - 5px)) rotate(0deg)",
+                    : "translateY(calc(-50% - 8px)) rotate(0deg)",
                   transition: "transform 300ms ease, background-color 300ms ease",
                 }}
               />
@@ -173,7 +173,7 @@ export const Header = ({ locale }: { locale: string }) => {
                   top: "50%",
                   transform: menuOpen
                     ? "translateY(-50%) rotate(-45deg)"
-                    : "translateY(calc(-50% + 5px)) rotate(0deg)",
+                    : "translateY(calc(-50% + 8px)) rotate(0deg)",
                   transition: "transform 300ms ease, background-color 300ms ease",
                 }}
               />
@@ -184,7 +184,7 @@ export const Header = ({ locale }: { locale: string }) => {
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-0 z-40 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
+        className={`fixed inset-0 z-40 bg-black/40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
           menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
