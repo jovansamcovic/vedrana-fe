@@ -16,7 +16,7 @@ export const Header = ({ locale }: { locale: string }) => {
 
   const isHome = new RegExp(`^/${locale}/?$`).test(pathname);
   const isProjectDetails = new RegExp(`^/${locale}/projects/[^/]+/?$`).test(pathname);
-  const isLight = (isHome  || (isProjectDetails && !scrolled)) && !menuOpen;
+  const isLight = (isHome || (isProjectDetails && !scrolled)) && !menuOpen;
 
   const isActive = (link: string) => {
     if (link === "") return new RegExp(`^/${locale}/?$`).test(pathname);
@@ -65,7 +65,6 @@ export const Header = ({ locale }: { locale: string }) => {
 
   const headerBg = () => {
     if (scrolled && !menuOpen && !isHome) return "bg-[#eeece8] shadow-sm";
-    // if (isHome) return "bg-gradient-to-b from-black/30 to-transparent";
     return "bg-transparent";
   };
 
@@ -136,23 +135,47 @@ export const Header = ({ locale }: { locale: string }) => {
 
             {/* BURGER */}
             <button
-              className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-[60] relative"
+              className="md:hidden w-8 h-8 relative z-[60]"
               onClick={handleMenuToggle}
               aria-label={t("toggleMenu")}
             >
-              {/* Ping prsten */}
               {isPulsing && !menuOpen && (
                 <span className="absolute inset-0 -m-2 rounded-full bg-[#C4A053] opacity-30 animate-ping pointer-events-none" />
               )}
 
+              {/* Linija 1 — pomera se na centar i rotira 45° */}
               <span
-                className={`block w-6 h-0.5 transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[7px] bg-white" : lineColor}`}
+                className={`absolute left-1 w-6 h-0.5 origin-center ${menuOpen ? "bg-white" : lineColor}`}
+                style={{
+                  top: "50%",
+                  transform: menuOpen
+                    ? "translateY(-50%) rotate(45deg)"
+                    : "translateY(calc(-50% - 5px)) rotate(0deg)",
+                  transition: "transform 300ms ease, background-color 300ms ease",
+                }}
               />
+
+              {/* Linija 2 — nestaje */}
               <span
-                className={`block w-6 h-0.5 transition-all duration-300 ${menuOpen ? "opacity-0" : lineColor}`}
+                className={`absolute left-1 w-6 h-0.5 origin-center ${menuOpen ? "bg-white" : lineColor}`}
+                style={{
+                  top: "50%",
+                  transform: "translateY(-50%) rotate(0deg)",
+                  opacity: menuOpen ? 0 : 1,
+                  transition: "opacity 300ms ease, background-color 300ms ease",
+                }}
               />
+
+              {/* Linija 3 — pomera se na centar i rotira -45° */}
               <span
-                className={`block w-6 h-0.5 transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px] bg-white" : lineColor}`}
+                className={`absolute left-1 w-6 h-0.5 origin-center ${menuOpen ? "bg-white" : lineColor}`}
+                style={{
+                  top: "50%",
+                  transform: menuOpen
+                    ? "translateY(-50%) rotate(-45deg)"
+                    : "translateY(calc(-50% + 5px)) rotate(0deg)",
+                  transition: "transform 300ms ease, background-color 300ms ease",
+                }}
               />
             </button>
           </div>
@@ -174,10 +197,12 @@ export const Header = ({ locale }: { locale: string }) => {
               <li
                 key={item.key}
                 style={{
+                  transitionProperty: "opacity, transform",
+                  transitionDuration: "500ms",
+                  transitionTimingFunction: "ease",
                   transitionDelay: menuOpen ? `${i * 80}ms` : "0ms",
                   opacity: menuOpen ? 1 : 0,
                   transform: menuOpen ? "translateY(0)" : "translateY(16px)",
-                  transition: "opacity 500ms, transform 500ms",
                 }}
               >
                 <Link
@@ -200,12 +225,12 @@ export const Header = ({ locale }: { locale: string }) => {
         <div
           className="flex flex-col items-center"
           style={{
-            transitionDelay: menuOpen
-              ? `${navItems.length * 80 + 60}ms`
-              : "0ms",
+            transitionProperty: "opacity, transform",
+            transitionDuration: "500ms",
+            transitionTimingFunction: "ease",
+            transitionDelay: menuOpen ? `${navItems.length * 80 + 60}ms` : "0ms",
             opacity: menuOpen ? 1 : 0,
             transform: menuOpen ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 500ms, transform 500ms",
             marginTop: "2.5rem",
           }}
         >

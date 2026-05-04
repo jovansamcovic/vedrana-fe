@@ -117,7 +117,7 @@ export const CrossfadeSlideshow = ({
             {tHome("heroSubtitle")}
           </p>
 
-          <div className="flex items-center flex-col gap-5 sm:gap-8 mt-4 sm:mt-6 sm:flex-row">
+          <div className="flex flex-col [@media(min-width:350px)]:flex-row items-center gap-5 sm:gap-8 mt-4 sm:mt-6">
             <Link
               href="/contact"
               className="group relative text-[#C4A053] text-[10px] sm:text-[11px] tracking-[0.18em] uppercase transition-opacity duration-300 hover:opacity-70 whitespace-nowrap"

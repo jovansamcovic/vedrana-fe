@@ -14,10 +14,8 @@ export default async function Page({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
   return (
     <>
-      <Header locale={locale}/>
       <HomePage params={params} />
     </>
   );
