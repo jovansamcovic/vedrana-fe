@@ -16,7 +16,7 @@ export default async function Layout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <LoadingScreen key={locale} locale={locale as "sr" | "en"} />
+      <LoadingScreen key={locale} />
       <Header locale={locale}/>
       {children}
     </NextIntlClientProvider>

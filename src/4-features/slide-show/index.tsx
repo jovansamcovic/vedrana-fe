@@ -112,7 +112,10 @@ export const CrossfadeSlideshow = ({
             {tHome("heroTitle")}
           </h1>
 
-          <p className="text-white/75 text-xs sm:text-sm md:text-base max-w-md leading-relaxed" style={{ fontFamily: "var(--font-cormorant)" }}>
+          <p
+            className="text-white/75 text-sm sm:text-base md:text-lg max-w-md leading-relaxed"
+            style={{ fontFamily: "var(--font-cormorant)" }}
+          >
             {tHome("heroSubtitle")}
           </p>
 
@@ -138,7 +141,6 @@ export const CrossfadeSlideshow = ({
 
       {/* BOTTOM */}
       <div className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-12 pb-8 md:pb-10">
-
         {/* MOBILE — strelica levo | naslov centar | strelica desno */}
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 md:hidden">
           <button
@@ -149,7 +151,10 @@ export const CrossfadeSlideshow = ({
             <ChevronLeft size={20} />
           </button>
 
-          <Link href={`/projects/${slides[current]?.slug}`} className="text-center">
+          <Link
+            href={`/projects/${slides[current]?.slug}`}
+            className="text-center"
+          >
             <h2
               className="text-white/80 text-sm font-light tracking-[0.08em] uppercase hover:text-white transition-colors"
               style={{ fontFamily: "var(--font-cormorant)" }}
@@ -195,7 +200,6 @@ export const CrossfadeSlideshow = ({
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );

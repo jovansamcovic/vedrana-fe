@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 
 const GIF_DURATION  = 1400;
@@ -11,11 +12,7 @@ const FADE_DURATION = 400;
 const DESKTOP_GIF = "/gifs/DeskGif.gif";
 const MOBILE_GIF  = "/gifs/MobileGif.gif";
 
-interface LoadingScreenProps {
-  locale?: "sr" | "en";
-}
-
-export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
+export const LoadingScreen = () => {
   const t       = useTranslations("LoadingScreen");
   const atelier = t("atelier");
   const words   = t.raw("words") as string[];
@@ -29,6 +26,7 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
   const [out, setOut]                 = useState(false);
   const [done, setDone]               = useState(false);
   const [isMobile, setIsMobile]       = useState(false);
+  const [mounted, setMounted]         = useState(false);
   const [progress, setProgress]       = useState(0);
 
   const imgRef      = useRef<HTMLImageElement>(null);
@@ -39,7 +37,10 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
   const addTimer = (cb: NodeJS.Timeout) => { timersRef.current.push(cb); return cb; };
   const clearAllTimers = () => { timersRef.current.forEach(clearTimeout); timersRef.current = []; };
 
-  useEffect(() => { setIsMobile(window.innerWidth < 768); }, []);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    setMounted(true);
+  }, []);
 
   const exit = () => {
     clearAllTimers();
@@ -124,9 +125,9 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
     return () => clearAllTimers();
   }, []);
 
-  if (done) return null;
+  if (!mounted || done) return null;
 
-  return (
+  return createPortal(
     <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0a] transition-opacity duration-[400ms] ease-in-out ${out ? "opacity-0 pointer-events-none" : "opacity-100"}`}
     >
@@ -180,7 +181,7 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
         </div>
       </div>
 
-      {/* Reči — samo fade */}
+      {/* Reči */}
       {phase === "words" && (
         <span
           className={`relative z-10 font-light tracking-[0.22em] uppercase text-[#F5F3EF] text-[clamp(28px,5vw,52px)] transition-opacity duration-200 ease-in-out ${
@@ -214,6 +215,7 @@ export const LoadingScreen = ({ locale = "sr" }: LoadingScreenProps) => {
           </span>
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 };
