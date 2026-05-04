@@ -184,7 +184,7 @@ export const Header = ({ locale }: { locale: string }) => {
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-0 z-40 bg-black/40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
+        className={`fixed inset-0 z-40 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
           menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
