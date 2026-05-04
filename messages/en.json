@@ -120,9 +120,13 @@
   "HomePage": {
     "atelierTitle": "The Atelier",
     "atelierDescription": "Founded in 2022 in Kragujevac, Vedrana Marković Atelier brings together the rigour of Italian design and the intimacy of a local practice. Trained in Milan and shaped by international experience, Vedrana creates residential and commercial interiors that feel deeply personal — spaces where opposing ideas are reconciled and every client receives far more than they expected.",
-    "allProjects": "All Projects"
+    "allProjects": "All Projects",
+    "heroTitle": "Timeless interiors designed with intention.",
+    "heroSubtitle": "We create refined, functional spaces tailored to your lifestyle.",
+    "startProject": "Start a project",
+    "viewProjects": "View projects"
   },
   "Common": {
-  "contactCta": "Reach out"
-}
+    "contactCta": "Reach out"
+  }
 }

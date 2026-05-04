@@ -120,9 +120,13 @@
   "HomePage": {
     "atelierTitle": "Atelje",
     "atelierDescription": "Osnovan 2022. godine u Kragujevcu, Atelje Vedrana Marković spaja preciznost italijanskog dizajna i intimnost lokalne prakse. Školovana u Milanu i oblikovana međunarodnim iskustvom, Vedrana stvara stambene i poslovne enterijere koji deluju duboko lično — prostore u kojima se suprotne ideje usklađuju i svaki klijent dobija daleko više nego što je očekivao.",
-    "allProjects": "Svi projekti"
+    "allProjects": "Svi projekti",
+    "heroTitle": "Bezvremenski enterijeri dizajnirani s namerom.",
+    "heroSubtitle": "Stvaramo elegantne, funkcionalne prostore prilagođene vašem životnom stilu.",
+    "startProject": "Pokreni projekat",
+    "viewProjects": "Pogledaj projekte"
   },
   "Common": {
-  "contactCta": "Javite se"
-}
+    "contactCta": "Javite se"
+  }
 }

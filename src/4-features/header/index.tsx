@@ -161,12 +161,11 @@ export const Header = ({ locale }: { locale: string }) => {
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
+        className={`fixed inset-0 z-40 bg-black/40 flex flex-col items-center justify-center transition-opacity duration-300 md:hidden backdrop-blur-xs ${
           menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       >
         <ul className="flex flex-col items-center gap-6 list-none m-0 p-0">
           {navItems.map((item, i) => {
