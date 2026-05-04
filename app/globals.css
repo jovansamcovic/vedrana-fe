@@ -9,3 +9,9 @@ body {
   background: #eeece8;
   color: #242424;
 }
+
+body.loader-active {
+  position: fixed;
+  width: 100%;
+  overflow-y: hidden;
+}
